@@ -1,0 +1,33 @@
+{
+  "name": "baasic-angular-security",
+  "version": "0.1.21",
+  "description": "Baasic AngularJS SDK security modules and services.",
+  "keywords": [
+    "angularjs",
+    "baasic",
+	"security",
+    "backend"
+  ],
+  "license": "MIT",
+  "main": "dist/baasic-angular-security.js",
+  "ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests",
+        "src",
+        "spec",
+		"NuGet",
+		"lib",
+        "bower.json",
+        "gulpfile.js",
+        "package.json",
+        "README.md"
+    ],
+  "devDependencies": {
+  },
+  "dependencies": {
+	"baasic-angular-core": "baasic/baasic-sdk-angularjs-core"
+  }
+}
