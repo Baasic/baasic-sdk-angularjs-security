@@ -18,7 +18,7 @@
     </metadata>
     <files>
         <file src="..\dist\baasic-angular-security.js" target="content\Scripts\baasic-angular-security.js" />
-		<file src="..\dist\baasic-angular-security.min.js" target="content\Scripts\baasic-angular.security.min.js" />
+		<file src="..\dist\baasic-angular-security.min.js" target="content\Scripts\baasic-angular-security.min.js" />
     </files>
 </package>
 
