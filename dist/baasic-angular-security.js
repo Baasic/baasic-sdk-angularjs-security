@@ -1,5 +1,5 @@
 (function (angular, undefined) {
-    var module = angular.module("baasic.baasicSecurity", ["baasic.baasicApi"]);
+    var module = angular.module("baasic.security", ["baasic.api"]);
 
     module.config(["$provide", function config($provide) {}]);
 
