@@ -4,16 +4,13 @@
         function (uriTemplateService) {
             return {
                 find: function (section) {
-                    return uriTemplateService.parse("permissions/section/" + section + "/{?searchQuery,sort}");
-                },
-                get: function (section) {
-                    return uriTemplateService.parse("permissions/section/" + section + "/{id}");
+                    return uriTemplateService.parse("permissions/sections/{section}/{?searchQuery,sort}");
                 },
                 getActions: uriTemplateService.parse("permissions/actions/{?searchQuery,sort}"),
-                getRoles: uriTemplateService.parse("role/{?searchQuery,page,rpp,sort}"),
-                getUsers: uriTemplateService.parse("user/{?searchQuery,page,rpp,sort}"),
+                getRoles: uriTemplateService.parse("roles/{?searchQuery,page,rpp,sort}"),
+                getUsers: uriTemplateService.parse("users/{?searchQuery,page,rpp,sort}"),
                 create: uriTemplateService.parse("permissions/"),
-				parse: uriTemplateService.parse
+                parse: uriTemplateService.parse
             };
         }]);
 }(angular, module));

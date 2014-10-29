@@ -9,12 +9,12 @@
                 return data === undefined || data === null || data === '';
             }
 
-            function getRoles(data) {
-                return baasicApiHttp.get(permissionsRouteService.getRoles.expand(baasicApiService.findParams(data)));
+            function getRoles(options) {
+                return baasicApiHttp.get(permissionsRouteService.getRoles.expand(baasicApiService.findParams(options)));
             }
 
-            function getUsers(data) {
-                return baasicApiHttp.get(permissionsRouteService.getUsers.expand(baasicApiService.findParams(data)));
+            function getUsers(options) {
+                return baasicApiHttp.get(permissionsRouteService.getUsers.expand(baasicApiService.findParams(options)));
             }
 
             function firstCharToLowerCase(text) {
@@ -25,19 +25,16 @@
 
             return {
                 routeService: permissionsRouteService,
-                find: function (section, data) {
-                    return baasicApiHttp.get(permissionsRouteService.find(section).expand(baasicApiService.findParams(data)));
+                find: function (section, options) {
+                    return baasicApiHttp.get(permissionsRouteService.find({ section: section }).expand(baasicApiService.findParams(options)));
                 },
-                get: function (section, data) {
-                    return baasicApiHttp.get(permissionsRouteService.get(section).expand(baasicApiService.getParams(data)));
+                getActions: function (options) {
+                    return baasicApiHttp.get(permissionsRouteService.getActions.expand(baasicApiService.findParams(options)));
                 },
-                getActions: function (data) {
-                    return baasicApiHttp.get(permissionsRouteService.getActions.expand(baasicApiService.findParams(data)));
-                },
-                getPermissionSubjects: function (data) {
+                getPermissionSubjects: function (options) {
                     var membershipCollection = [];
 
-                    var userTask = getUsers(data)
+                    var userTask = getUsers(options)
                         .success(function (collection) {
                             angular.forEach(collection.item, function (item) {
                                 var membershipItem = {
@@ -49,7 +46,7 @@
                             });
                         });
 
-                    var roleTask = getRoles(data)
+                    var roleTask = getRoles(options)
                             .success(function (collection) {
                                 angular.forEach(collection.item, function (item) {
                                     var membershipItem = {

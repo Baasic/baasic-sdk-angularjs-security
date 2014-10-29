@@ -6,7 +6,6 @@
             var app = baasicApp.get();
             var apiKey = app.get_apiKey();
             permissionHash[apiKey] = {};
-
             return {
                 getUser: function getUser() {
                     var user = app.get_user();
@@ -45,7 +44,7 @@
                 getAccessToken: function getAccessToken() {
                     return app.get_accessToken();
                 },
-				resetPermissions: function () {
+                resetPermissions: function () {
                     permissionHash[apiKey] = {};
                 },
                 hasPermission: function (authorization) {
