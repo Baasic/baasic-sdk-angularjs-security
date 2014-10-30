@@ -151,9 +151,9 @@
             return {
                 routeService: permissionsRouteService,
                 find: function (section, options) {
-                    return baasicApiHttp.get(permissionsRouteService.find({
-                        section: section
-                    }).expand(baasicApiService.findParams(options)));
+                    var params = angular.extend({}, options);
+                    params.section = section;
+                    return baasicApiHttp.get(permissionsRouteService.find().expand(baasicApiService.findParams(params)));
                 },
                 getActions: function (options) {
                     return baasicApiHttp.get(permissionsRouteService.getActions.expand(baasicApiService.findParams(options)));
