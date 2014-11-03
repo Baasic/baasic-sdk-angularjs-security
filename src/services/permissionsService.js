@@ -40,7 +40,7 @@
                         .success(function (collection) {
                             angular.forEach(collection.item, function (item) {
                                 var membershipItem = {
-                                    name: item.username,
+                                    name: item.userName,
                                     role: ''
                                 };
                                 angular.extend(membershipItem, item);
@@ -54,7 +54,7 @@
                                     var membershipItem = {
                                         name: item.name,
                                         roleName: item.name,
-                                        username: ''
+                                        userName: ''
                                     };
                                     angular.extend(membershipItem, item);
                                     membershipCollection.push(membershipItem);
@@ -116,7 +116,7 @@
                     var permission = {
                         dirty: true,
                         role: membershipItem.roleName,
-                        username: membershipItem.userName,
+                        userName: membershipItem.userName,
                         section: section,
                         actions: []
                     };
@@ -135,7 +135,7 @@
 
                         if (item.section === permission.section &&
                                ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) ||
-                               (!isEmpty(item.username) && !isEmpty(permission.username) && item.username === permission.username))) {
+                               (!isEmpty(item.userName) && !isEmpty(permission.userName) && item.userName === permission.userName))) {
                             return item;
                         }
                     }
