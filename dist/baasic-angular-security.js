@@ -39,10 +39,7 @@
                 },
                 setUser: function setUser(user) {
                     if (user) {
-                        var token = user.accessToken;
-                        delete user.accessToken;
-
-                        app.set_user(user, token);
+                        app.set_user(user);
                         user.isAuthenticated = true;
                         $rootScope.user = user;
                     } else {
@@ -54,17 +51,20 @@
                     }
                 },
                 updateUser: function updateUser(user) {
-                    if (!user.accessToken) {
-                        user.accessToken = this.getAccessToken();
-                    }
-
                     var currentUser = this.getUser();
-                    angular.extend(currentUser, user);
+                    if (currentUser) {
+                        angular.extend(currentUser, user);
+                    } else {
+                        currentUser = user;
+                    }
 
                     this.setUser(currentUser);
                 },
                 getAccessToken: function getAccessToken() {
                     return app.get_accessToken();
+                },
+                updateAccessToken: function updateAccessToken(token) {
+                    return app.update_accessToken(token);
                 },
                 resetPermissions: function () {
                     permissionHash[apiKey] = {};
