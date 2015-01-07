@@ -67,6 +67,8 @@ Baasic Permissions Service provides an easy way to consume Baasic application pe
 * `create` - ???
 * `find` - ???
 
+`permissionsService` is used in the same way as the `authorizationService`.
+
 ##### recaptchaService
 
 Baasic Recaptcha Service provides an easy way to consume Baasic application recaptcha features.
@@ -76,6 +78,8 @@ Baasic Recaptcha Service provides an easy way to consume Baasic application reca
 * `response` - ???
 * `reload` - ???
 * `destroy` - ???
+
+`recaptchaService` is used in the same way as the `authorizationService`.
 
 ##### permissionsRouteService
 
