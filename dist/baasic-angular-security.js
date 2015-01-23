@@ -160,6 +160,16 @@
                 },
                 getPermissionSubjects: function (options) {
                     var membershipCollection = [];
+                    var resolvedTasks = 0;
+                    var deferred = $q.defer();
+
+                    function ensureTaskCount() {
+                        resolvedTasks++;
+                        if (resolvedTasks == 2) {
+                            deferred.resolve(membershipCollection);
+                            resolvedTasks = 0;
+                        }
+                    }
 
                     var userTask = getUsers(options).success(function (collection) {
                         angular.forEach(collection.item, function (item) {
@@ -170,6 +180,17 @@
                             angular.extend(membershipItem, item);
                             membershipCollection.push(membershipItem);
                         });
+                        ensureTaskCount();
+                    }).error(function (data, status, headers, config) {
+                        if (status !== undefined && status !== 403) {
+                            deferred.reject({
+                                data: data,
+                                status: status,
+                                headers: headers,
+                                config: config
+                            });
+                        }
+                        ensureTaskCount();
                     });
 
                     var roleTask = getRoles(options).success(function (collection) {
@@ -182,9 +203,20 @@
                             angular.extend(membershipItem, item);
                             membershipCollection.push(membershipItem);
                         });
+                        ensureTaskCount();
+                    }).error(function (data, status, headers, config) {
+                        if (status !== undefined && status !== 403) {
+                            deferred.reject({
+                                data: data,
+                                status: status,
+                                headers: headers,
+                                config: config
+                            });
+                        }
+                        ensureTaskCount();
                     });
 
-                    return $q.all([userTask, roleTask]).then(function () {
+                    return deferred.promise.then(function () {
                         return _orderBy(membershipCollection, 'name');
                     });
                 },
