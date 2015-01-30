@@ -316,7 +316,7 @@
                         create: authService.hasPermission(firstCharToLowerCase(section) + ".create"),
                         remove: authService.hasPermission(firstCharToLowerCase(section) + ".delete"),
                         read: authService.hasPermission(firstCharToLowerCase(section) + ".read"),
-                        acl: authService.hasPermission(firstCharToLowerCase(section) + ".acl")
+                        full: authService.hasPermission(firstCharToLowerCase(section) + ".full")
                     };
                     return permission;
                 }
