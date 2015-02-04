@@ -256,7 +256,11 @@
                                 });
                             }
                         });
-                        permission.actions = _orderBy(permission.actions, 'name');
+                        permission.actions = _filter(permission.actions, {
+                            name: "Full"
+                        }).concat(_orderBy(_filter(permission.actions, {
+                            name: "!Full"
+                        }), "name"));
                         //Push existing permission to mixed collection and fix the HAL links for selected permissions
                         var newPermission = that.findPermission(permission, newPermissionCollection);
                         if (newPermission === undefined) {
