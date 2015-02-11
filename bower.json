@@ -1,33 +1,32 @@
 {
   "name": "baasic-angular-security",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "Baasic AngularJS SDK security modules and services.",
   "keywords": [
     "angularjs",
     "baasic",
-	"security",
+    "security",
     "backend"
   ],
   "license": "MIT",
   "main": "dist/baasic-angular-security.js",
   "ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests",
-        "src",
-        "spec",
-		"NuGet",
-		"lib",
-        "bower.json",
-        "gulpfile.js",
-        "package.json",
-        "README.md"
-    ],
-  "devDependencies": {
-  },
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "spec",
+    "NuGet",
+    "lib",
+    "bower.json",
+    "gulpfile.js",
+    "package.json",
+    "README.md"
+  ],
+  "devDependencies": {},
   "dependencies": {
-	"baasic-angular-core": "baasic/baasic-sdk-angularjs-core"
+    "baasic-angular-core": "http://gitserver/monosoftware/baasic-sdk-angularjs-core.git#~0.1.27"
   }
 }
