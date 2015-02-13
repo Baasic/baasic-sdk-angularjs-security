@@ -1,20 +1,24 @@
-﻿(function (angular, module, undefined) {
-    "use strict";
-    module.service("baasicRecaptchaService", ["recaptchaKey",
+﻿/* globals module, Recaptcha */
+
+(function (angular, module, undefined) {
+    'use strict';
+    module.service('baasicRecaptchaService', ['recaptchaKey',
         function (recaptchaKey) {
             return {
                 create: function (elem, options) {
-                    var id = elem.attr("id");
+                    var id = elem.attr('id');
                     if (!id) {
-                        id = "recaptcha-" + Math.random() * 10000;
-                        elem.attr("id", id);
+                        id = 'recaptcha-' + Math.random() * 10000;
+                        elem.attr('id', id);
                     }
                     Recaptcha.create(recaptchaKey, id, options);
                 },
                 challenge: function () {
+					/* jshint camelcase: false */
                     return Recaptcha.get_challenge();
                 },
                 response: function () {
+					/* jshint camelcase: false */
                     return Recaptcha.get_response();
                 },
                 reload: function () {

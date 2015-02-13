@@ -1,14 +1,16 @@
-﻿(function (angular, module, undefined) {
-    "use strict";
+﻿/* globals module */
+
+(function (angular, module, undefined) {
+    'use strict';
     var permissionHash = {};
-    module.service("baasicAuthorizationService", ["$rootScope", "baasicApp",
+    module.service('baasicAuthorizationService', ['$rootScope', 'baasicApp',
         function ($rootScope, baasicApp) {
             var app = baasicApp.get();
-            var apiKey = app.get_apiKey();
+            var apiKey = app.getApiKey();
             permissionHash[apiKey] = {};
             return {
                 getUser: function getUser() {
-                    var user = app.get_user();
+                    var user = app.getUser();
                     if ($rootScope.user === undefined &&
                             user.user !== undefined) {
                         $rootScope.user = user.user;
@@ -17,11 +19,11 @@
                 },
                 setUser: function setUser(user) {
                     if (user) {
-                        app.set_user(user);
+                        app.setUser(user);
                         user.isAuthenticated = true;
                         $rootScope.user = user;
                     } else {
-                        app.set_user(null);
+                        app.setUser(null);
                         this.resetPermissions();
                         $rootScope.user = {
                             isAuthenticated: false
@@ -39,10 +41,10 @@
                     this.setUser(currentUser);
                 },
                 getAccessToken: function getAccessToken() {
-                    return app.get_accessToken();
+                    return app.getAccessToken();
                 },
 				updateAccessToken: function updateAccessToken(token) {
-					return app.update_accessToken(token);
+					return app.updateAccessToken(token);
 				},
                 resetPermissions: function () {
                     permissionHash[apiKey] = {};
@@ -60,7 +62,7 @@
                     var hasPermission = false;
 
                     if (user.permissions) {
-                        var tokens = authorization.split(".");
+                        var tokens = authorization.split('.');
                         if (tokens.length > 0) {
                             var section = tokens[0];
 
@@ -69,7 +71,7 @@
                                 if (tokens.length > 1) {
                                     var action = tokens[1].toLowerCase();
                                     for (var i = 0; i < sectionPermissions.length; i++) {
-                                        if (sectionPermissions[i].toLowerCase() == action) {
+                                        if (sectionPermissions[i].toLowerCase() === action) {
                                             hasPermission = true;
                                             break;
                                         }

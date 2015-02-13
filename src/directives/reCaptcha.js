@@ -1,17 +1,19 @@
-﻿(function (angular, module, undefined) {
-    "use strict";
-    module.directive("baasicRecaptcha", ["baasicRecaptchaService",
+﻿/* globals module */
+
+(function (angular, module, undefined) {
+    'use strict';
+    module.directive('baasicRecaptcha', ['baasicRecaptchaService',
         function (recaptchaService) {
             return {
                 restrict: 'A',
-                link: function (scope, elem, attrs) {
+                link: function (scope, elem) {
                     recaptchaService.create(elem,
                         {
-                            theme: "clean"
+                            theme: 'clean'
                         }
                     );
 
-                    scope.$on("$destroy", function () {
+                    scope.$on('$destroy', function () {
                         if (recaptchaService) {
                             recaptchaService.destroy();
                         }

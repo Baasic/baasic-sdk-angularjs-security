@@ -1,6 +1,8 @@
-﻿(function (angular, module, undefined) {
-    "use strict";
-    module.service("baasicPermissionsService", ["$q", "$filter", "baasicApiHttp", "baasicApiService", "baasicConstants", "baasicPermissionsRouteService", "baasicAuthorizationService",
+﻿/* globals module */
+
+(function (angular, module, undefined) {
+    'use strict';
+    module.service('baasicPermissionsService', ['$q', '$filter', 'baasicApiHttp', 'baasicApiService', 'baasicConstants', 'baasicPermissionsRouteService', 'baasicAuthorizationService',
         function ($q, $filter, baasicApiHttp, baasicApiService, baasicConstants, permissionsRouteService, authService) {
             var _orderBy = $filter('orderBy');
             var _filter = $filter('filter');
@@ -40,13 +42,13 @@
 
                     function ensureTaskCount() {
                         resolvedTasks++;
-                        if (resolvedTasks == 2) {
+                        if (resolvedTasks === 2) {
                             deferred.resolve(membershipCollection);
                             resolvedTasks = 0;
                         }
                     }
 
-                    var userTask = getUsers(options)
+                    getUsers(options)
                         .success(function (collection) {
                             angular.forEach(collection.item, function (item) {
                                 var membershipItem = {
@@ -70,7 +72,7 @@
                             ensureTaskCount();
                         });
 
-                    var roleTask = getRoles(options)
+                    getRoles(options)
                         .success(function (collection) {
                             angular.forEach(collection.item, function (item) {
                                 var membershipItem = {
@@ -135,7 +137,7 @@
                                 });
                             }
                         });
-                        permission.actions = _filter(permission.actions, { name: "Full" }).concat(_orderBy(_filter(permission.actions, { name: "!Full" }), "name"));
+                        permission.actions = _filter(permission.actions, { name: 'Full' }).concat(_orderBy(_filter(permission.actions, { name: '!Full' }), 'name'));
                         //Push existing permission to mixed collection and fix the HAL links for selected permissions
                         var newPermission = that.findPermission(permission, newPermissionCollection);
                         if (newPermission === undefined) {
@@ -176,7 +178,7 @@
                     return undefined;
                 },
                 exists: function (permission, permissionCollection) {
-                    return !(this.findPermission(permission, permissionCollection) === undefined);
+                    return this.findPermission(permission, permissionCollection) !== undefined;
                 },
                 togglePermission: function (permission, action) {
                     var requestPermission = {};
@@ -193,11 +195,11 @@
                 },
                 getModulePermissions: function (section) {
                     var permission = {
-                        update: authService.hasPermission(firstCharToLowerCase(section) + ".update"),
-                        create: authService.hasPermission(firstCharToLowerCase(section) + ".create"),
-                        remove: authService.hasPermission(firstCharToLowerCase(section) + ".delete"),
-                        read: authService.hasPermission(firstCharToLowerCase(section) + ".read"),
-                        full: authService.hasPermission(firstCharToLowerCase(section) + ".full")
+                        update: authService.hasPermission(firstCharToLowerCase(section) + '.update'),
+                        create: authService.hasPermission(firstCharToLowerCase(section) + '.create'),
+                        remove: authService.hasPermission(firstCharToLowerCase(section) + '.delete'),
+                        read: authService.hasPermission(firstCharToLowerCase(section) + '.read'),
+                        full: authService.hasPermission(firstCharToLowerCase(section) + '.full')
                     };
                     return permission;
                 }

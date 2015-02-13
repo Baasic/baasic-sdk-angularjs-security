@@ -1,19 +1,20 @@
-(function (angular, undefined) {
-    var module = angular.module("baasic.security", ["baasic.api"]);
+(function (angular, undefined) { /* exported module */
 
-    module.config(["$provide", function config($provide) {}]);
+    var module = angular.module('baasic.security', ['baasic.api']);
+
+    /* globals module */
 
     (function (angular, module, undefined) {
-        "use strict";
-        module.directive("baasicRecaptcha", ["baasicRecaptchaService", function (recaptchaService) {
+        'use strict';
+        module.directive('baasicRecaptcha', ['baasicRecaptchaService', function (recaptchaService) {
             return {
                 restrict: 'A',
-                link: function (scope, elem, attrs) {
+                link: function (scope, elem) {
                     recaptchaService.create(elem, {
-                        theme: "clean"
+                        theme: 'clean'
                     });
 
-                    scope.$on("$destroy", function () {
+                    scope.$on('$destroy', function () {
                         if (recaptchaService) {
                             recaptchaService.destroy();
                         }
@@ -21,17 +22,18 @@
                 }
             };
         }]);
-    }(angular, module));
+    }(angular, module)); /* globals module */
+
     (function (angular, module, undefined) {
-        "use strict";
+        'use strict';
         var permissionHash = {};
-        module.service("baasicAuthorizationService", ["$rootScope", "baasicApp", function ($rootScope, baasicApp) {
+        module.service('baasicAuthorizationService', ['$rootScope', 'baasicApp', function ($rootScope, baasicApp) {
             var app = baasicApp.get();
-            var apiKey = app.get_apiKey();
+            var apiKey = app.getApiKey();
             permissionHash[apiKey] = {};
             return {
                 getUser: function getUser() {
-                    var user = app.get_user();
+                    var user = app.getUser();
                     if ($rootScope.user === undefined && user.user !== undefined) {
                         $rootScope.user = user.user;
                     }
@@ -39,11 +41,11 @@
                 },
                 setUser: function setUser(user) {
                     if (user) {
-                        app.set_user(user);
+                        app.setUser(user);
                         user.isAuthenticated = true;
                         $rootScope.user = user;
                     } else {
-                        app.set_user(null);
+                        app.setUser(null);
                         this.resetPermissions();
                         $rootScope.user = {
                             isAuthenticated: false
@@ -61,10 +63,10 @@
                     this.setUser(currentUser);
                 },
                 getAccessToken: function getAccessToken() {
-                    return app.get_accessToken();
+                    return app.getAccessToken();
                 },
                 updateAccessToken: function updateAccessToken(token) {
-                    return app.update_accessToken(token);
+                    return app.updateAccessToken(token);
                 },
                 resetPermissions: function () {
                     permissionHash[apiKey] = {};
@@ -82,7 +84,7 @@
                     var hasPermission = false;
 
                     if (user.permissions) {
-                        var tokens = authorization.split(".");
+                        var tokens = authorization.split('.');
                         if (tokens.length > 0) {
                             var section = tokens[0];
 
@@ -91,7 +93,7 @@
                                 if (tokens.length > 1) {
                                     var action = tokens[1].toLowerCase();
                                     for (var i = 0; i < sectionPermissions.length; i++) {
-                                        if (sectionPermissions[i].toLowerCase() == action) {
+                                        if (sectionPermissions[i].toLowerCase() === action) {
                                             hasPermission = true;
                                             break;
                                         }
@@ -108,25 +110,27 @@
                 }
             };
         }]);
-    }(angular, module));
+    }(angular, module)); /* globals module */
+
     (function (angular, module, undefined) {
-        "use strict";
-        module.service("baasicPermissionsRouteService", ["baasicUriTemplateService", function (uriTemplateService) {
+        'use strict';
+        module.service('baasicPermissionsRouteService', ['baasicUriTemplateService', function (uriTemplateService) {
             return {
                 find: function (section) {
-                    return uriTemplateService.parse("permissions/sections/{section}/{?searchQuery,sort}");
+                    return uriTemplateService.parse('permissions/sections/{section}/{?searchQuery,sort}', section);
                 },
-                getActions: uriTemplateService.parse("permissions/actions/{?searchQuery,sort}"),
-                getRoles: uriTemplateService.parse("roles/{?searchQuery,page,rpp,sort}"),
-                getUsers: uriTemplateService.parse("users/{?searchQuery,page,rpp,sort}"),
-                create: uriTemplateService.parse("permissions/"),
+                getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
+                getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
+                getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
+                create: uriTemplateService.parse('permissions/'),
                 parse: uriTemplateService.parse
             };
         }]);
-    }(angular, module));
+    }(angular, module)); /* globals module */
+
     (function (angular, module, undefined) {
-        "use strict";
-        module.service("baasicPermissionsService", ["$q", "$filter", "baasicApiHttp", "baasicApiService", "baasicConstants", "baasicPermissionsRouteService", "baasicAuthorizationService", function ($q, $filter, baasicApiHttp, baasicApiService, baasicConstants, permissionsRouteService, authService) {
+        'use strict';
+        module.service('baasicPermissionsService', ['$q', '$filter', 'baasicApiHttp', 'baasicApiService', 'baasicConstants', 'baasicPermissionsRouteService', 'baasicAuthorizationService', function ($q, $filter, baasicApiHttp, baasicApiService, baasicConstants, permissionsRouteService, authService) {
             var _orderBy = $filter('orderBy');
             var _filter = $filter('filter');
 
@@ -165,13 +169,13 @@
 
                     function ensureTaskCount() {
                         resolvedTasks++;
-                        if (resolvedTasks == 2) {
+                        if (resolvedTasks === 2) {
                             deferred.resolve(membershipCollection);
                             resolvedTasks = 0;
                         }
                     }
 
-                    var userTask = getUsers(options).success(function (collection) {
+                    getUsers(options).success(function (collection) {
                         angular.forEach(collection.item, function (item) {
                             var membershipItem = {
                                 name: item.userName,
@@ -193,7 +197,7 @@
                         ensureTaskCount();
                     });
 
-                    var roleTask = getRoles(options).success(function (collection) {
+                    getRoles(options).success(function (collection) {
                         angular.forEach(collection.item, function (item) {
                             var membershipItem = {
                                 name: item.name,
@@ -257,10 +261,10 @@
                             }
                         });
                         permission.actions = _filter(permission.actions, {
-                            name: "Full"
+                            name: 'Full'
                         }).concat(_orderBy(_filter(permission.actions, {
-                            name: "!Full"
-                        }), "name"));
+                            name: '!Full'
+                        }), 'name'));
                         //Push existing permission to mixed collection and fix the HAL links for selected permissions
                         var newPermission = that.findPermission(permission, newPermissionCollection);
                         if (newPermission === undefined) {
@@ -299,7 +303,7 @@
                     return undefined;
                 },
                 exists: function (permission, permissionCollection) {
-                    return !(this.findPermission(permission, permissionCollection) === undefined);
+                    return this.findPermission(permission, permissionCollection) !== undefined;
                 },
                 togglePermission: function (permission, action) {
                     var requestPermission = {};
@@ -316,33 +320,34 @@
                 },
                 getModulePermissions: function (section) {
                     var permission = {
-                        update: authService.hasPermission(firstCharToLowerCase(section) + ".update"),
-                        create: authService.hasPermission(firstCharToLowerCase(section) + ".create"),
-                        remove: authService.hasPermission(firstCharToLowerCase(section) + ".delete"),
-                        read: authService.hasPermission(firstCharToLowerCase(section) + ".read"),
-                        full: authService.hasPermission(firstCharToLowerCase(section) + ".full")
+                        update: authService.hasPermission(firstCharToLowerCase(section) + '.update'),
+                        create: authService.hasPermission(firstCharToLowerCase(section) + '.create'),
+                        remove: authService.hasPermission(firstCharToLowerCase(section) + '.delete'),
+                        read: authService.hasPermission(firstCharToLowerCase(section) + '.read'),
+                        full: authService.hasPermission(firstCharToLowerCase(section) + '.full')
                     };
                     return permission;
                 }
             };
         }]);
-    }(angular, module));
+    }(angular, module)); /* globals module, Recaptcha */
+
     (function (angular, module, undefined) {
-        "use strict";
-        module.service("baasicRecaptchaService", ["recaptchaKey", function (recaptchaKey) {
+        'use strict';
+        module.service('baasicRecaptchaService', ['recaptchaKey', function (recaptchaKey) {
             return {
                 create: function (elem, options) {
-                    var id = elem.attr("id");
+                    var id = elem.attr('id');
                     if (!id) {
-                        id = "recaptcha-" + Math.random() * 10000;
-                        elem.attr("id", id);
+                        id = 'recaptcha-' + Math.random() * 10000;
+                        elem.attr('id', id);
                     }
                     Recaptcha.create(recaptchaKey, id, options);
                 },
-                challenge: function () {
+                challenge: function () { /* jshint camelcase: false */
                     return Recaptcha.get_challenge();
                 },
-                response: function () {
+                response: function () { /* jshint camelcase: false */
                     return Recaptcha.get_response();
                 },
                 reload: function () {
