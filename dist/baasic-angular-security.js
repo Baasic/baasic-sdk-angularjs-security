@@ -1,9 +1,47 @@
 (function (angular, undefined) { /* exported module */
+    /** 
+     * @overview The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism.
+     * @copyright (c) 2015 Mono-Software
+     * @license MIT
+     * @author Mono-Software
+     */
+
+    /**
+     * An angular module is a container for the different parts of your app - services, directives etc. In order to use baasic.security module functionality it must be added as a dependency to your app.
+     * @module baasic.security 
+     * @example
+     (function (Main) {
+     "use strict";
+     var dependencies = [
+     "baasic.api",
+     "baasic.membership",
+     "baasic.security",
+     "baasic.appSettings",
+     "baasic.article",
+     "baasic.dynamicResource",
+     "baasic.keyValue",
+     "baasic.valueSet"
+     ];
+     Main.module = angular.module("myApp.Main", dependencies);
+     }
+     (MyApp.Modules.Main = {})); 
+     */
 
     var module = angular.module('baasic.security', ['baasic.api']);
 
     /* globals module */
+    /** 
+     * @overview At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive).
+     * @copyright (c) 2015 Mono-Software
+     * @license MIT
+     * @author Mono-Software
+     */
 
+    /**
+     * Angular directive which allows you to use the reCaptcha inside your project.
+     * @module baasicRecaptcha
+     * @example <div baasic-recaptcha></div> 
+     */
     (function (angular, module, undefined) {
         'use strict';
         module.directive('baasicRecaptcha', ['baasicRecaptchaService', function (recaptchaService) {
@@ -23,7 +61,16 @@
             };
         }]);
     }(angular, module)); /* globals module */
+    /**
+     * @module baasicAuthorizationService
+     **/
 
+    /** 
+     * @overview Authorization service.
+     * @copyright (c) 2015 Mono-Software
+     * @license MIT
+     * @author Mono-Software
+     */
     (function (angular, module, undefined) {
         'use strict';
         var permissionHash = {};
@@ -32,6 +79,11 @@
             var apiKey = app.getApiKey();
             permissionHash[apiKey] = {};
             return {
+                /**
+                 * Returns the currently logged in user.
+                 * @method        
+                 * @example baasicAuthorizationService.getUser();
+                 **/
                 getUser: function getUser() {
                     var user = app.getUser();
                     if ($rootScope.user === undefined && user.user !== undefined) {
@@ -39,6 +91,11 @@
                     }
                     return user.user;
                 },
+                /**
+                 * Sets the current user information, if no user information is provided the user information is cleared from the storage and rootScope.
+                 * @method        
+                 * @example baasicAuthorizationService.setUser(null);
+                 **/
                 setUser: function setUser(user) {
                     if (user) {
                         app.setUser(user);
@@ -52,6 +109,18 @@
                         };
                     }
                 },
+                /**
+                 * Updates current user information with new data.
+                 * @method        
+                 * @example
+                 baasicLoginService.loadUserData()
+                 .success(function (data) {
+                 // Update user information with refreshed data
+                 baasicAuthorizationService.updateUser(data);
+                 })
+                 .error(function (data) {})
+                 .finally (function () {});
+                 **/
                 updateUser: function updateUser(user) {
                     var currentUser = this.getUser();
                     if (currentUser) {
@@ -62,15 +131,60 @@
 
                     this.setUser(currentUser);
                 },
+                /**
+                 * Retrives current user access token.
+                 * @method        
+                 * @example baasicAuthorizationService.getAccessToken();
+                 **/
                 getAccessToken: function getAccessToken() {
                     return app.getAccessToken();
                 },
+                /**
+                 * Stores access token information.
+                 * @method        
+                 * @example
+                 baasicLoginService.login({
+                 userName : "userName"
+                 password : "password"
+                 options : ['session', 'sliding']
+                 })
+                 .success(function (data) {
+                 // Store token information
+                 baasicAuthorizationService.updateAccessToken(data);
+                 })
+                 .error(function (data, status) {})
+                 .finally (function () {});
+                 **/
                 updateAccessToken: function updateAccessToken(token) {
                     return app.updateAccessToken(token);
                 },
+                /**
+                 * Retrives user permission hash. This action should be performed when user information is updated.
+                 * @method        
+                 * @example
+                 baasicLoginService.loadUserData()
+                 .success(function (data) {
+                 baasicAuthorizationService.resetPermissions();
+                 baasicAuthorizationService.updateUser(data);
+                 })
+                 .error(function (data) {})
+                 .finally (function () {});
+                 **/
                 resetPermissions: function () {
                     permissionHash[apiKey] = {};
                 },
+                /**
+                 * Checks if current user has permissions to perform a certain action. To optimize performance this information is cached and can be reset using the resetPermissions action. Permissions cache should be reset when updated user information is set.
+                 * @method        
+                 * @example
+                 baasicLoginService.loadUserData()
+                 .success(function (data) {
+                 baasicAuthorizationService.resetPermissions();
+                 baasicAuthorizationService.updateUser(data);
+                 })
+                 .error(function (data) {})
+                 .finally (function () {});
+                 **/
                 hasPermission: function (authorization) {
                     if (permissionHash[apiKey].hasOwnProperty(authorization)) {
                         return permissionHash[apiKey][authorization];
@@ -111,28 +225,88 @@
             };
         }]);
     }(angular, module)); /* globals module */
+    /**
+     * @module baasicPermissionsRouteService
+     **/
 
+    /** 
+     * @overview Permissions route service.
+     * @copyright (c) 2015 Mono-Software
+     * @license MIT
+     * @author Mono-Software
+     */
     (function (angular, module, undefined) {
         'use strict';
         module.service('baasicPermissionsRouteService', ['baasicUriTemplateService', function (uriTemplateService) {
             return {
+                /**
+                 * Parses find route which can be expanded with additional options. Supported items are: 
+                 * - `section` - Name of the permission section.
+                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
+                 * - `sort` - A string used to set the role property to sort the result collection by.				
+                 * @method        
+                 * @example baasicPermissionsRouteService.find("sectionName").expand({searchQuery: "searchTerm"});               
+                 **/
                 find: function (section) {
                     return uriTemplateService.parse('permissions/sections/{section}/{?searchQuery,sort}', section);
                 },
+                /**
+                 * Parses getActions route which can be expanded with additional options. Supported items are: 
+                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
+                 * - `sort` - A string used to set the role property to sort the result collection by.				
+                 * @method        
+                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: "searchTerm"});               
+                 **/
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
+                /**
+                 * Parses getRoles route which can be expanded with additional options. Supported items are: 
+                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
+                 * - `sort` - A string used to set the role property to sort the result collection by.	
+                 * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
+                 * - `rpp` - A value used to limit the size of result set per page.				
+                 * @method        
+                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "searchTerm"});               
+                 **/
                 getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
+                /**
+                 * Parses getUsers route which can be expanded with additional options. Supported items are: 
+                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
+                 * - `sort` - A string used to set the role property to sort the result collection by.	
+                 * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
+                 * - `rpp` - A value used to limit the size of result set per page.				
+                 * @method        
+                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "searchTerm"});               
+                 **/
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
+                /**
+                 * Parses create permission route, this URI template doesn't expose any additional properties.
+                 * @method        
+                 * @example baasicPermissionsRouteService.create.expand({});               
+                 **/
                 create: uriTemplateService.parse('permissions/'),
+                /**
+                 * Parses and expands URI templates based on [RFC6570](http://tools.ietf.org/html/rfc6570) specifications. For more information please visit the project [github](https://github.com/Baasic/uritemplate-js) page.
+                 * @method tags.parse
+                 * @example uriTemplateService.parse("route/{?embed,fields,options}").expand({embed: "embeddedResource"});
+                 **/
                 parse: uriTemplateService.parse
             };
         }]);
     }(angular, module)); /* globals module */
+    /**
+     * @module baasicPermissionsService
+     **/
 
+    /** 
+     * @overview Permissions service.
+     * @copyright (c) 2015 Mono-Software
+     * @license MIT
+     * @author Mono-Software
+     */
     (function (angular, module, undefined) {
         'use strict';
         module.service('baasicPermissionsService', ['$q', '$filter', 'baasicApiHttp', 'baasicApiService', 'baasicConstants', 'baasicPermissionsRouteService', 'baasicAuthorizationService', function ($q, $filter, baasicApiHttp, baasicApiService, baasicConstants, permissionsRouteService, authService) {
             var _orderBy = $filter('orderBy');
-            var _filter = $filter('filter');
 
             function isEmpty(data) {
                 return data === undefined || data === null || data === '';
@@ -154,14 +328,62 @@
 
             return {
                 routeService: permissionsRouteService,
+                /**
+                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of permission resources.
+                 * @method        
+                 * @example 
+                 baasicPermissionsService.find("sectionName", {
+                 search : "searchTerm"
+                 })
+                 .success(function (collection) {
+                 // perform success action here
+                 })
+                 .error(function (response, status, headers, config) {
+                 // perform error handling here
+                 });
+                 **/
                 find: function (section, options) {
                     var params = angular.extend({}, options);
                     params.section = section;
                     return baasicApiHttp.get(permissionsRouteService.find().expand(baasicApiService.findParams(params)));
                 },
+                /**
+                 * Returns a promise that is resolved once the getActions action has been performed. Success response returns a list of permission action resources.
+                 * @method        
+                 * @example 
+                 baasicPermissionsService.find({
+                 pageNumber : 1,
+                 pageSize : 10,
+                 orderBy : "publishDate",
+                 orderDirection : "desc",
+                 search : "searchTerm"
+                 })
+                 .success(function (collection) {
+                 // perform success action here
+                 })
+                 .error(function (response, status, headers, config) {
+                 // perform error handling here
+                 });
+                 **/
                 getActions: function (options) {
                     return baasicApiHttp.get(permissionsRouteService.getActions.expand(baasicApiService.findParams(options)));
                 },
+                /**
+                 * Returns a promise that is resolved once the getPermissionSubjects action has been performed. Success response returns a list of matching user and role resources resources.
+                 * @method        
+                 * @example 
+                 baasicPermissionsService.getPermissionSubjects({
+                 orderBy : 'name',
+                 orderDirection : 'asc',
+                 search : 'searchTerm'
+                 })
+                 .success(function (collection) {
+                 // perform success action here
+                 })
+                 .error(function (response, status, headers, config) {
+                 // perform error handling here
+                 });
+                 **/
                 getPermissionSubjects: function (options) {
                     var membershipCollection = [];
                     var resolvedTasks = 0;
@@ -224,57 +446,59 @@
                         return _orderBy(membershipCollection, 'name');
                     });
                 },
+                /**
+                 * Returns a promise that is resolved once the create action has been performed.
+                 * @method        
+                 * @example 
+                 // readAction and updateActions are resources previously fetched using getActions.
+                 baasicPermissionsService.create({
+                 actions : [readAction, updateAction],
+                 section : "Users",
+                 userName : "userName"
+                 })
+                 .success(function (data) {
+                 // perform success action here
+                 })
+                 .error(function (response, status, headers, config) {
+                 // perform error handling here
+                 });
+                 **/
                 create: function (data) {
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
+                /**
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed the resource is permanently removed from the system.
+                 * @method        
+                 * @example 
+                 // Existing resource is a resource previously fetched using get action.
+                 baasicPermissionsService.remove(existingResource)
+                 .success(function (data) {
+                 // perform success action here
+                 })
+                 .error(function (response, status, headers, config) {
+                 // perform error handling here
+                 });
+                 **/
                 remove: function (data) {
                     var params = baasicApiService.removeParams(data);
                     var action = data.actions[0];
                     var operation = !isEmpty(data.role) ? 'Role' : 'User';
                     return baasicApiHttp.delete(params[baasicConstants.modelPropertyName].links('delete' + action.abrv + operation).href);
                 },
-                preparePermissions: function (queryUtility, actionCollection, permissionCollection, selectedPermissions) {
-                    var that = this;
-                    //Apply search parameters to the selected items & create new mixed collection
-                    var newPermissionCollection = angular.copy(_filter(selectedPermissions, function (item) {
-                        if (!isEmpty(queryUtility.pagingInfo.search)) {
-                            return item.name.indexOf(queryUtility.pagingInfo.search) > -1;
-                        }
-                        return true;
-                    }));
-                    angular.forEach(permissionCollection, function (permission) {
-                        angular.forEach(actionCollection, function (lookupAction) {
-                            //Add missing actions to the permission
-                            var items = _filter(permission.actions, function (action) {
-                                return action.abrv === lookupAction.abrv;
-                            });
-                            if (items.length === 0) {
-                                var newAction = {
-                                    checked: false
-                                };
-                                angular.extend(newAction, lookupAction);
-                                permission.actions.push(newAction);
-                            } else {
-                                angular.forEach(items, function (item) {
-                                    item.checked = true;
-                                });
-                            }
-                        });
-                        permission.actions = _filter(permission.actions, {
-                            name: 'Full'
-                        }).concat(_orderBy(_filter(permission.actions, {
-                            name: '!Full'
-                        }), 'name'));
-                        //Push existing permission to mixed collection and fix the HAL links for selected permissions
-                        var newPermission = that.findPermission(permission, newPermissionCollection);
-                        if (newPermission === undefined) {
-                            newPermissionCollection.push(permission);
-                        } else {
-                            angular.extend(newPermission, permission);
-                        }
-                    });
-                    return newPermissionCollection;
-                },
+                /**
+                 * Creates a new in-memory permission object.
+                 * @method        
+                 * @example 
+                 // action collection are lookup items fetched using baasicLookupService.get action.
+                 var actionCollection;
+                 return baasicLookupService.get()
+                 .success(function (data) {
+                 actionCollection = data;
+                 })
+                 .error(function (data, status, headers, config) {});
+                 // subjectItem is an item fetched using baasicPermissionsService.getPermissionSubjects action.
+                 baasicPermissionsService.createPermission("sectionName", actionCollection, subjectItem);
+                 **/
                 createPermission: function (section, actionCollection, membershipItem) {
                     var permission = {
                         dirty: true,
@@ -292,6 +516,11 @@
                     });
                     return permission;
                 },
+                /**
+                 * Finds a permission in a given permission collection.
+                 * @method        
+                 * @example baasicPermissionsService.findPermission(permissionObj, permissionCollection);
+                 **/
                 findPermission: function (permission, permissionCollection) {
                     for (var i = 0; i < permissionCollection.length; i++) {
                         var item = permissionCollection[i];
@@ -302,9 +531,19 @@
                     }
                     return undefined;
                 },
+                /**
+                 * Checks if a permission object exists in a given permission collection.
+                 * @method        
+                 * @example baasicPermissionsService.exists(permissionObj, permissionCollection);
+                 **/
                 exists: function (permission, permissionCollection) {
                     return this.findPermission(permission, permissionCollection) !== undefined;
                 },
+                /**
+                 * Returns a promise that is resolved once the togglePermission action has been completed. The action will internally either call a remove or create action based on given criteria.
+                 * @method        
+                 * @example baasicPermissionsService.togglePermission(permissionObj, action);
+                 **/
                 togglePermission: function (permission, action) {
                     var requestPermission = {};
                     angular.extend(requestPermission, permission);
@@ -318,6 +557,11 @@
                     }
                     return operation(requestPermission);
                 },
+                /**
+                 * Fetches and returns and object containing all existing module permissions.
+                 * @method        
+                 * @example baasicPermissionsService.getModulePermissions("sectionName");
+                 **/
                 getModulePermissions: function (section) {
                     var permission = {
                         update: authService.hasPermission(firstCharToLowerCase(section) + '.update'),
@@ -331,11 +575,25 @@
             };
         }]);
     }(angular, module)); /* globals module, Recaptcha */
+    /**
+     * @module baasicRecaptchaService
+     **/
 
+    /** 
+     * @overview Recaptcha service.
+     * @copyright (c) 2015 Mono-Software
+     * @license MIT
+     * @author Mono-Software
+     */
     (function (angular, module, undefined) {
         'use strict';
         module.service('baasicRecaptchaService', ['recaptchaKey', function (recaptchaKey) {
             return {
+                /**
+                 * Creates a new reCaptcha instance.
+                 * @method        
+                 * @example baasicRecaptchaService.create(element, {theme: 'clean'});
+                 **/
                 create: function (elem, options) {
                     var id = elem.attr('id');
                     if (!id) {
@@ -344,15 +602,35 @@
                     }
                     Recaptcha.create(recaptchaKey, id, options);
                 },
+                /**
+                 * Returns a new reCaptcha challenge.
+                 * @method        
+                 * @example baasicRecaptchaService.challenge();
+                 **/
                 challenge: function () { /* jshint camelcase: false */
                     return Recaptcha.get_challenge();
                 },
+                /**
+                 * Returns a user response.
+                 * @method        
+                 * @example baasicRecaptchaService.response();
+                 **/
                 response: function () { /* jshint camelcase: false */
                     return Recaptcha.get_response();
                 },
+                /**
+                 * Reloads reCaptcha challenge.
+                 * @method        
+                 * @example baasicRecaptchaService.reload();
+                 **/
                 reload: function () {
                     Recaptcha.reload();
                 },
+                /**
+                 * Destroys reCaptcha instance.
+                 * @method        
+                 * @example baasicRecaptchaService.destroy();
+                 **/
                 destroy: function () {
                     Recaptcha.destroy();
                 }

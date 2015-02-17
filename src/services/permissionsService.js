@@ -1,11 +1,19 @@
 ﻿/* globals module */
+/**
+ * @module baasicPermissionsService
+**/
 
+/** 
+ * @overview Permissions service.
+ * @copyright (c) 2015 Mono-Software
+ * @license MIT
+ * @author Mono-Software
+*/
 (function (angular, module, undefined) {
     'use strict';
     module.service('baasicPermissionsService', ['$q', '$filter', 'baasicApiHttp', 'baasicApiService', 'baasicConstants', 'baasicPermissionsRouteService', 'baasicAuthorizationService',
         function ($q, $filter, baasicApiHttp, baasicApiService, baasicConstants, permissionsRouteService, authService) {
-            var _orderBy = $filter('orderBy');
-            var _filter = $filter('filter');
+            var _orderBy = $filter('orderBy');            
 
             function isEmpty(data) {
                 return data === undefined || data === null || data === '';
@@ -27,14 +35,62 @@
 
             return {
                 routeService: permissionsRouteService,
+                /**
+                * Returns a promise that is resolved once the find action has been performed. Success response returns a list of permission resources.
+                * @method        
+                * @example 
+baasicPermissionsService.find("sectionName", {
+  search : "searchTerm"
+})
+.success(function (collection) {
+  // perform success action here
+})
+.error(function (response, status, headers, config) {
+  // perform error handling here
+});    
+                **/ 				
                 find: function (section, options) {
                     var params = angular.extend({}, options);
                     params.section = section;
                     return baasicApiHttp.get(permissionsRouteService.find().expand(baasicApiService.findParams(params)));
                 },
+                /**
+                * Returns a promise that is resolved once the getActions action has been performed. Success response returns a list of permission action resources.
+                * @method        
+                * @example 
+baasicPermissionsService.find({
+  pageNumber : 1,
+  pageSize : 10,
+  orderBy : "publishDate",
+  orderDirection : "desc",
+  search : "searchTerm"
+})
+.success(function (collection) {
+  // perform success action here
+})
+.error(function (response, status, headers, config) {
+  // perform error handling here
+});    
+                **/ 				
                 getActions: function (options) {
                     return baasicApiHttp.get(permissionsRouteService.getActions.expand(baasicApiService.findParams(options)));
                 },
+                /**
+                * Returns a promise that is resolved once the getPermissionSubjects action has been performed. Success response returns a list of matching user and role resources resources.
+                * @method        
+                * @example 
+baasicPermissionsService.getPermissionSubjects({
+  orderBy : 'name',
+  orderDirection : 'asc',
+  search : 'searchTerm'
+})
+.success(function (collection) {
+  // perform success action here
+})
+.error(function (response, status, headers, config) {
+  // perform error handling here
+}); 
+                **/ 				
                 getPermissionSubjects: function (options) {
                     var membershipCollection = [];
                     var resolvedTasks = 0;
@@ -101,53 +157,59 @@
                         return _orderBy(membershipCollection, 'name');
                     });
                 },
+                 /**
+                 * Returns a promise that is resolved once the create action has been performed.
+                 * @method        
+                 * @example 
+// readAction and updateActions are resources previously fetched using getActions.
+baasicPermissionsService.create({
+  actions : [readAction, updateAction],
+  section : "Users",
+  userName : "userName"
+})
+.success(function (data) {
+  // perform success action here
+})
+.error(function (response, status, headers, config) {
+  // perform error handling here
+});
+                **/ 				
                 create: function (data) {
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
+                 /**
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed the resource is permanently removed from the system.
+                 * @method        
+                 * @example 
+// Existing resource is a resource previously fetched using get action.				 
+baasicPermissionsService.remove(existingResource)
+.success(function (data) {
+  // perform success action here
+})
+.error(function (response, status, headers, config) {
+  // perform error handling here
+});		
+				**/					
                 remove: function (data) {
                     var params = baasicApiService.removeParams(data);
                     var action = data.actions[0];
                     var operation = !isEmpty(data.role) ? 'Role' : 'User';
                     return baasicApiHttp.delete(params[baasicConstants.modelPropertyName].links('delete' + action.abrv + operation).href);
-                },
-                preparePermissions: function (queryUtility, actionCollection, permissionCollection, selectedPermissions) {
-                    var that = this;
-                    //Apply search parameters to the selected items & create new mixed collection
-                    var newPermissionCollection = angular.copy(_filter(selectedPermissions, function (item) {
-                        if (!isEmpty(queryUtility.pagingInfo.search)) {
-                            return item.name.indexOf(queryUtility.pagingInfo.search) > -1;
-                        }
-                        return true;
-                    }));
-                    angular.forEach(permissionCollection, function (permission) {
-                        angular.forEach(actionCollection, function (lookupAction) {
-                            //Add missing actions to the permission
-                            var items = _filter(permission.actions, function (action) {
-                                return action.abrv === lookupAction.abrv;
-                            });
-                            if (items.length === 0) {
-                                var newAction = {
-                                    checked: false
-                                };
-                                angular.extend(newAction, lookupAction);
-                                permission.actions.push(newAction);
-                            } else {
-                                angular.forEach(items, function (item) {
-                                    item.checked = true;
-                                });
-                            }
-                        });
-                        permission.actions = _filter(permission.actions, { name: 'Full' }).concat(_orderBy(_filter(permission.actions, { name: '!Full' }), 'name'));
-                        //Push existing permission to mixed collection and fix the HAL links for selected permissions
-                        var newPermission = that.findPermission(permission, newPermissionCollection);
-                        if (newPermission === undefined) {
-                            newPermissionCollection.push(permission);
-                        } else {
-                            angular.extend(newPermission, permission);
-                        }
-                    });
-                    return newPermissionCollection;
-                },
+                },                
+                 /**
+                 * Creates a new in-memory permission object.
+                 * @method        
+                 * @example 
+// action collection are lookup items fetched using baasicLookupService.get action.
+var actionCollection;
+return baasicLookupService.get()
+.success(function (data) {
+  actionCollection = data;
+})
+.error(function (data, status, headers, config) {});
+// subjectItem is an item fetched using baasicPermissionsService.getPermissionSubjects action.
+baasicPermissionsService.createPermission("sectionName", actionCollection, subjectItem);
+				**/					
                 createPermission: function (section, actionCollection, membershipItem) {
                     var permission = {
                         dirty: true,
@@ -165,6 +227,11 @@
                     });
                     return permission;
                 },
+                 /**
+                 * Finds a permission in a given permission collection.
+                 * @method        
+                 * @example baasicPermissionsService.findPermission(permissionObj, permissionCollection);
+				**/						
                 findPermission: function (permission, permissionCollection) {
                     for (var i = 0; i < permissionCollection.length; i++) {
                         var item = permissionCollection[i];
@@ -177,9 +244,19 @@
                     }
                     return undefined;
                 },
+                 /**
+                 * Checks if a permission object exists in a given permission collection.
+                 * @method        
+                 * @example baasicPermissionsService.exists(permissionObj, permissionCollection);
+				**/					
                 exists: function (permission, permissionCollection) {
                     return this.findPermission(permission, permissionCollection) !== undefined;
                 },
+                /**
+                * Returns a promise that is resolved once the togglePermission action has been completed. The action will internally either call a remove or create action based on given criteria.
+                * @method        
+                * @example baasicPermissionsService.togglePermission(permissionObj, action);
+				**/					
                 togglePermission: function (permission, action) {
                     var requestPermission = {};
                     angular.extend(requestPermission, permission);
@@ -193,6 +270,11 @@
                     }
                     return operation(requestPermission);
                 },
+                /**
+                * Fetches and returns and object containing all existing module permissions.
+                * @method        
+                * @example baasicPermissionsService.getModulePermissions("sectionName");
+				**/					
                 getModulePermissions: function (section) {
                     var permission = {
                         update: authService.hasPermission(firstCharToLowerCase(section) + '.update'),

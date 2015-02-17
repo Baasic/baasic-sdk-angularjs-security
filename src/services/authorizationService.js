@@ -1,5 +1,14 @@
 ﻿/* globals module */
+/**
+ * @module baasicAuthorizationService
+**/
 
+/** 
+ * @overview Authorization service.
+ * @copyright (c) 2015 Mono-Software
+ * @license MIT
+ * @author Mono-Software
+*/
 (function (angular, module, undefined) {
     'use strict';
     var permissionHash = {};
@@ -9,6 +18,11 @@
             var apiKey = app.getApiKey();
             permissionHash[apiKey] = {};
             return {
+                /**
+                * Returns the currently logged in user.
+                * @method        
+                * @example baasicAuthorizationService.getUser();
+                **/ 			
                 getUser: function getUser() {
                     var user = app.getUser();
                     if ($rootScope.user === undefined &&
@@ -17,6 +31,11 @@
                     }
                     return user.user;
                 },
+                /**
+                * Sets the current user information, if no user information is provided the user information is cleared from the storage and rootScope.
+                * @method        
+                * @example baasicAuthorizationService.setUser(null);
+                **/ 				
                 setUser: function setUser(user) {
                     if (user) {
                         app.setUser(user);
@@ -30,6 +49,18 @@
                         };
                     }
                 },
+                /**
+                * Updates current user information with new data.
+                * @method        
+                * @example
+baasicLoginService.loadUserData()
+.success(function (data) {
+  // Update user information with refreshed data
+  baasicAuthorizationService.updateUser(data);
+})
+.error(function (data) {})
+.finally (function () {});				
+                **/ 				
                 updateUser: function updateUser(user) {
                     var currentUser = this.getUser();
 					if (currentUser) {
@@ -40,15 +71,60 @@
 
                     this.setUser(currentUser);
                 },
+                /**
+                * Retrives current user access token.
+                * @method        
+                * @example baasicAuthorizationService.getAccessToken();
+                **/ 				
                 getAccessToken: function getAccessToken() {
                     return app.getAccessToken();
                 },
+                /**
+                * Stores access token information.
+                * @method        
+                * @example
+baasicLoginService.login({
+  userName : "userName"
+  password : "password"
+  options : ['session', 'sliding']
+})
+.success(function (data) {
+  // Store token information
+  baasicAuthorizationService.updateAccessToken(data);
+})
+.error(function (data, status) {})
+.finally (function () {});				
+                **/ 				
 				updateAccessToken: function updateAccessToken(token) {
 					return app.updateAccessToken(token);
-				},
+				},	
+                /**
+                * Retrives user permission hash. This action should be performed when user information is updated.
+                * @method        
+                * @example
+baasicLoginService.loadUserData()
+.success(function (data) {
+  baasicAuthorizationService.resetPermissions();
+  baasicAuthorizationService.updateUser(data);
+})
+.error(function (data) {})
+.finally (function () {});				
+                **/ 				
                 resetPermissions: function () {
                     permissionHash[apiKey] = {};
                 },
+                /**
+                * Checks if current user has permissions to perform a certain action. To optimize performance this information is cached and can be reset using the resetPermissions action. Permissions cache should be reset when updated user information is set.
+                * @method        
+                * @example
+baasicLoginService.loadUserData()
+.success(function (data) {
+  baasicAuthorizationService.resetPermissions();
+  baasicAuthorizationService.updateUser(data);
+})
+.error(function (data) {})
+.finally (function () {});				
+                **/ 				
                 hasPermission: function (authorization) {
                     if (permissionHash[apiKey].hasOwnProperty(authorization)) {
                         return permissionHash[apiKey][authorization];

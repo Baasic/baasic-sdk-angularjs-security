@@ -4,6 +4,7 @@
 var gulp = require('gulp'),
 	plugins = require('gulp-load-plugins')(),
 	stylish = require('jshint-stylish');
+var docgen = require('baasic-javascript-docgen');	
 
 var paths = {
   scripts: ['src/**/*.js']
@@ -31,4 +32,8 @@ gulp.task('scripts', function() {
 	.pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['jshint', 'scripts']);
+gulp.task('docs', function() {
+  docgen.generateBaasicDocs('src', 'wiki', 'Baasic Dynamic Resource Navigation', ['config.js']);
+});
+
+gulp.task('default', ['jshint', 'docs', 'scripts']);

@@ -1,5 +1,16 @@
 ﻿/* globals module */
+/** 
+ * @overview At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive).
+ * @copyright (c) 2015 Mono-Software
+ * @license MIT
+ * @author Mono-Software
+*/
 
+/**
+ * Angular directive which allows you to use the reCaptcha inside your project.
+ * @module baasicRecaptcha
+ * @example <div baasic-recaptcha></div> 
+*/
 (function (angular, module, undefined) {
     'use strict';
     module.directive('baasicRecaptcha', ['baasicRecaptchaService',
