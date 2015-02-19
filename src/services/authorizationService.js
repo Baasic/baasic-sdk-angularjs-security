@@ -32,7 +32,7 @@
                     return user.user;
                 },
                 /**
-                * Sets the current user information, if no user information is provided the user information is cleared from the storage and rootScope.
+                * Sets the current user information. If no user information is provided, the user information is cleared from the storage and rootScope.
                 * @method        
                 * @example baasicAuthorizationService.setUser(null);
                 **/ 				
@@ -72,7 +72,7 @@ baasicLoginService.loadUserData()
                     this.setUser(currentUser);
                 },
                 /**
-                * Retrives current user access token.
+                * Retrives current user's access token.
                 * @method        
                 * @example baasicAuthorizationService.getAccessToken();
                 **/ 				

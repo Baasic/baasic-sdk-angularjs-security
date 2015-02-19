@@ -92,7 +92,7 @@
                     return user.user;
                 },
                 /**
-                 * Sets the current user information, if no user information is provided the user information is cleared from the storage and rootScope.
+                 * Sets the current user information. If no user information is provided, the user information is cleared from the storage and rootScope.
                  * @method        
                  * @example baasicAuthorizationService.setUser(null);
                  **/
@@ -132,7 +132,7 @@
                     this.setUser(currentUser);
                 },
                 /**
-                 * Retrives current user access token.
+                 * Retrives current user's access token.
                  * @method        
                  * @example baasicAuthorizationService.getAccessToken();
                  **/
@@ -279,7 +279,7 @@
                  **/
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
                 /**
-                 * Parses create permission route, this URI template doesn't expose any additional properties.
+                 * Parses create permission route; this URI template doesn't expose any additional properties.
                  * @method        
                  * @example baasicPermissionsRouteService.create.expand({});               
                  **/
@@ -329,7 +329,7 @@
             return {
                 routeService: permissionsRouteService,
                 /**
-                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of permission resources.
+                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                  * @method        
                  * @example 
                  baasicPermissionsService.find("sectionName", {
@@ -348,7 +348,7 @@
                     return baasicApiHttp.get(permissionsRouteService.find().expand(baasicApiService.findParams(params)));
                 },
                 /**
-                 * Returns a promise that is resolved once the getActions action has been performed. Success response returns a list of permission action resources.
+                 * Returns a promise that is resolved once the getActions action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                  * @method        
                  * @example 
                  baasicPermissionsService.find({
@@ -369,7 +369,7 @@
                     return baasicApiHttp.get(permissionsRouteService.getActions.expand(baasicApiService.findParams(options)));
                 },
                 /**
-                 * Returns a promise that is resolved once the getPermissionSubjects action has been performed. Success response returns a list of matching user and role resources resources.
+                 * Returns a promise that is resolved once the getPermissionSubjects action has been performed. Success response returns a list of matching user and role resources.
                  * @method        
                  * @example 
                  baasicPermissionsService.getPermissionSubjects({
@@ -467,7 +467,7 @@
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
                 /**
-                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed the resource is permanently removed from the system.
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed.
                  * @method        
                  * @example 
                  // Existing resource is a resource previously fetched using get action.

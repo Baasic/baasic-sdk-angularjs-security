@@ -54,7 +54,7 @@
                 **/  				
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
                 /**
-                * Parses create permission route, this URI template doesn't expose any additional properties.
+                * Parses create permission route; this URI template doesn't expose any additional properties.
                 * @method        
                 * @example baasicPermissionsRouteService.create.expand({});               
                 **/ 				
