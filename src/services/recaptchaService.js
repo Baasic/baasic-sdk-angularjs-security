@@ -1,10 +1,7 @@
 ﻿/* globals module, Recaptcha */
 /**
  * @module baasicRecaptchaService
-**/
-
-/** 
- * @overview Recaptcha service.
+ * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features.
  * @copyright (c) 2015 Mono-Software
  * @license MIT
  * @author Mono-Software

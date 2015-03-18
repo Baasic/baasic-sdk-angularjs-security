@@ -1,10 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicAuthorizationService
-**/
-
-/** 
- * @overview Authorization service.
+ * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
  * @copyright (c) 2015 Mono-Software
  * @license MIT
  * @author Mono-Software

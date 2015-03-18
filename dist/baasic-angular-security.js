@@ -1,13 +1,9 @@
 (function (angular, undefined) { /* exported module */
     /** 
-     * @overview The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism.
+     * @description The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism. An angular module is a container for the different parts of your app - services, directives etc. In order to use `baasic.security` module functionality it must be added as a dependency to your app.
      * @copyright (c) 2015 Mono-Software
      * @license MIT
      * @author Mono-Software
-     */
-
-    /**
-     * An angular module is a container for the different parts of your app - services, directives etc. In order to use baasic.security module functionality it must be added as a dependency to your app.
      * @module baasic.security 
      * @example
      (function (Main) {
@@ -31,14 +27,10 @@
 
     /* globals module */
     /** 
-     * @overview At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive).
+     * @description At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive). `baasicRecaptcha` directive allows you to use the reCaptcha inside your project.
      * @copyright (c) 2015 Mono-Software
      * @license MIT
      * @author Mono-Software
-     */
-
-    /**
-     * Angular directive which allows you to use the reCaptcha inside your project.
      * @module baasicRecaptcha
      * @example <div baasic-recaptcha></div> 
      */
@@ -63,10 +55,7 @@
     }(angular, module)); /* globals module */
     /**
      * @module baasicAuthorizationService
-     **/
-
-    /** 
-     * @overview Authorization service.
+     * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
      * @copyright (c) 2015 Mono-Software
      * @license MIT
      * @author Mono-Software
@@ -227,10 +216,7 @@
     }(angular, module)); /* globals module */
     /**
      * @module baasicPermissionsRouteService
-     **/
-
-    /** 
-     * @overview Permissions route service.
+     * @description Baasic Permissions Route Service provides Baasic route templates which can then be expanded to Baasic REST URI's through the [URI Template](https://github.com/Baasic/uritemplate-js) by providing it with an object that contains URI parameters. `baasicPermissionsService` uses `baasicPermissionsRouteService` to obtain a part of needed routes while the other part is obtained through HAL. Route services by convention use the same function names as their corresponding services.
      * @copyright (c) 2015 Mono-Software
      * @license MIT
      * @author Mono-Software
@@ -295,10 +281,7 @@
     }(angular, module)); /* globals module */
     /**
      * @module baasicPermissionsService
-     **/
-
-    /** 
-     * @overview Permissions service.
+     * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features.
      * @copyright (c) 2015 Mono-Software
      * @license MIT
      * @author Mono-Software
@@ -577,10 +560,7 @@
     }(angular, module)); /* globals module, Recaptcha */
     /**
      * @module baasicRecaptchaService
-     **/
-
-    /** 
-     * @overview Recaptcha service.
+     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features.
      * @copyright (c) 2015 Mono-Software
      * @license MIT
      * @author Mono-Software

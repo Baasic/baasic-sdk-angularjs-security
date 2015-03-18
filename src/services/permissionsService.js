@@ -1,10 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicPermissionsService
-**/
-
-/** 
- * @overview Permissions service.
+ * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features.
  * @copyright (c) 2015 Mono-Software
  * @license MIT
  * @author Mono-Software
