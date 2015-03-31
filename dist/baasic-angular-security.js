@@ -1,9 +1,9 @@
 (function (angular, undefined) { /* exported module */
     /** 
      * @description The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism. An angular module is a container for the different parts of your app - services, directives etc. In order to use `baasic.security` module functionality it must be added as a dependency to your app.
-     * @copyright (c) 2015 Mono-Software
+     * @copyright (c) 2015 Mono
      * @license MIT
-     * @author Mono-Software
+     * @author Mono
      * @module baasic.security 
      * @example
      (function (Main) {
@@ -28,9 +28,9 @@
     /* globals module */
     /** 
      * @description At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive). `baasicRecaptcha` directive allows you to use the reCaptcha inside your project.
-     * @copyright (c) 2015 Mono-Software
+     * @copyright (c) 2015 Mono
      * @license MIT
-     * @author Mono-Software
+     * @author Mono
      * @module baasicRecaptcha
      * @example <div baasic-recaptcha></div> 
      */
@@ -56,9 +56,9 @@
     /**
      * @module baasicAuthorizationService
      * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
-     * @copyright (c) 2015 Mono-Software
+     * @copyright (c) 2015 Mono
      * @license MIT
-     * @author Mono-Software
+     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -69,7 +69,7 @@
             permissionHash[apiKey] = {};
             return {
                 /**
-                 * Returns the currently logged in user.
+                 * Gets user the currently logged in user.
                  * @method        
                  * @example baasicAuthorizationService.getUser();
                  **/
@@ -217,9 +217,9 @@
     /**
      * @module baasicPermissionsRouteService
      * @description Baasic Permissions Route Service provides Baasic route templates which can then be expanded to Baasic REST URI's through the [URI Template](https://github.com/Baasic/uritemplate-js) by providing it with an object that contains URI parameters. `baasicPermissionsService` uses `baasicPermissionsRouteService` to obtain a part of needed routes while the other part is obtained through HAL. Route services by convention use the same function names as their corresponding services.
-     * @copyright (c) 2015 Mono-Software
+     * @copyright (c) 2015 Mono
      * @license MIT
-     * @author Mono-Software
+     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -282,9 +282,9 @@
     /**
      * @module baasicPermissionsService
      * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features.
-     * @copyright (c) 2015 Mono-Software
+     * @copyright (c) 2015 Mono
      * @license MIT
-     * @author Mono-Software
+     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -310,6 +310,11 @@
             }
 
             return {
+                /**
+                 * Provides direct access to `baasicPermissionsRouteService`.
+                 * @method        
+                 * @example baasicPermissionsService.routeService.get.expand(expandObject);
+                 **/
                 routeService: permissionsRouteService,
                 /**
                  * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
@@ -337,8 +342,8 @@
                  baasicPermissionsService.find({
                  pageNumber : 1,
                  pageSize : 10,
-                 orderBy : "publishDate",
-                 orderDirection : "desc",
+                 orderBy : "<publishDate>",
+                 orderDirection : "<desc>",
                  search : "<search-phrase>"
                  })
                  .success(function (collection) {
@@ -356,8 +361,8 @@
                  * @method        
                  * @example 
                  baasicPermissionsService.getPermissionSubjects({
-                 orderBy : 'name',
-                 orderDirection : 'asc',
+                 orderBy : '<name>',
+                 orderDirection : '<asc>',
                  search : '<search-phrase>'
                  })
                  .success(function (collection) {
@@ -430,7 +435,7 @@
                     });
                 },
                 /**
-                 * Returns a promise that is resolved once the create action has been performed.
+                 * Returns a promise that is resolved once the create action has been performed, this action creates a new permission resource.
                  * @method        
                  * @example 
                  // readAction and updateActions are resources previously fetched using getActions.
@@ -450,7 +455,11 @@
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
                 /**
-                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed.
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This function doesn't use `baasicPermissionsRouteService` for obtaining route templates, however `remove` route can be obtained from permission resource (HAL enabled) objects like this:
+                 ```
+                 var params = baasicApiService.removeParams(permissionObject);
+                 var uri = params["model"].links('delete').href;
+                 ```
                  * @method        
                  * @example 
                  // Existing resource is a resource previously fetched using get action.
@@ -523,7 +532,7 @@
                     return this.findPermission(permission, permissionCollection) !== undefined;
                 },
                 /**
-                 * Returns a promise that is resolved once the togglePermission action has been completed. The action will internally either call a remove or create action based on given criteria.
+                 * Returns a promise that is resolved once the togglePermission action has been completed. The action will internally either call a `remove` or `create` action based on given criteria.
                  * @method        
                  * @example baasicPermissionsService.togglePermission(permissionObj, action);
                  **/
@@ -561,9 +570,9 @@
     /**
      * @module baasicRecaptchaService
      * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features.
-     * @copyright (c) 2015 Mono-Software
+     * @copyright (c) 2015 Mono
      * @license MIT
-     * @author Mono-Software
+     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
