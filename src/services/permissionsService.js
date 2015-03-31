@@ -36,8 +36,8 @@
                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                 * @method        
                 * @example 
-baasicPermissionsService.find("sectionName", {
-  search : "searchTerm"
+baasicPermissionsService.find("<section-name>", {
+  search : "<search-phrase>"
 })
 .success(function (collection) {
   // perform success action here
@@ -60,7 +60,7 @@ baasicPermissionsService.find({
   pageSize : 10,
   orderBy : "publishDate",
   orderDirection : "desc",
-  search : "searchTerm"
+  search : "<search-phrase>"
 })
 .success(function (collection) {
   // perform success action here
@@ -79,7 +79,7 @@ baasicPermissionsService.find({
 baasicPermissionsService.getPermissionSubjects({
   orderBy : 'name',
   orderDirection : 'asc',
-  search : 'searchTerm'
+  search : '<search-phrase>'
 })
 .success(function (collection) {
   // perform success action here
@@ -161,8 +161,8 @@ baasicPermissionsService.getPermissionSubjects({
 // readAction and updateActions are resources previously fetched using getActions.
 baasicPermissionsService.create({
   actions : [readAction, updateAction],
-  section : "Users",
-  userName : "userName"
+  section : "<section-name>",
+  userName : "<userName>"
 })
 .success(function (data) {
   // perform success action here
@@ -205,7 +205,7 @@ return baasicLookupService.get()
 })
 .error(function (data, status, headers, config) {});
 // subjectItem is an item fetched using baasicPermissionsService.getPermissionSubjects action.
-baasicPermissionsService.createPermission("sectionName", actionCollection, subjectItem);
+baasicPermissionsService.createPermission("<section-Name>", actionCollection, subjectItem);
 				**/					
                 createPermission: function (section, actionCollection, membershipItem) {
                     var permission = {
@@ -270,7 +270,7 @@ baasicPermissionsService.createPermission("sectionName", actionCollection, subje
                 /**
                 * Fetches and returns and object containing all existing module permissions.
                 * @method        
-                * @example baasicPermissionsService.getModulePermissions("sectionName");
+                * @example baasicPermissionsService.getModulePermissions("<section-name>");
 				**/					
                 getModulePermissions: function (section) {
                     var permission = {

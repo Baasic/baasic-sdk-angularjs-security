@@ -133,8 +133,8 @@
                  * @method        
                  * @example
                  baasicLoginService.login({
-                 userName : "userName"
-                 password : "password"
+                 userName : "<username>"
+                 password : "<password>"
                  options : ['session', 'sliding']
                  })
                  .success(function (data) {
@@ -231,7 +231,7 @@
                  * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
                  * - `sort` - A string used to set the role property to sort the result collection by.				
                  * @method        
-                 * @example baasicPermissionsRouteService.find("sectionName").expand({searchQuery: "searchTerm"});               
+                 * @example baasicPermissionsRouteService.find("sectionName").expand({searchQuery: "<search-phrase>"});               
                  **/
                 find: function (section) {
                     return uriTemplateService.parse('permissions/sections/{section}/{?searchQuery,sort}', section);
@@ -241,7 +241,7 @@
                  * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
                  * - `sort` - A string used to set the role property to sort the result collection by.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: "searchTerm"});               
+                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: "<search-phrase>"});               
                  **/
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
                 /**
@@ -251,7 +251,7 @@
                  * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "searchTerm"});               
+                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "<search-phrase>"});               
                  **/
                 getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
                 /**
@@ -261,7 +261,7 @@
                  * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "searchTerm"});               
+                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "<search-phrase>"});               
                  **/
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
                 /**
@@ -273,7 +273,7 @@
                 /**
                  * Parses and expands URI templates based on [RFC6570](http://tools.ietf.org/html/rfc6570) specifications. For more information please visit the project [GitHub](https://github.com/Baasic/uritemplate-js) page.
                  * @method tags.parse
-                 * @example baasicPermissionsRouteService.parse("route/{?embed,fields,options}").expand({embed: "embeddedResource"});
+                 * @example baasicPermissionsRouteService.parse("route/{?embed,fields,options}").expand({embed: "<embedded-resource>"});
                  **/
                 parse: uriTemplateService.parse
             };
@@ -315,8 +315,8 @@
                  * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                  * @method        
                  * @example 
-                 baasicPermissionsService.find("sectionName", {
-                 search : "searchTerm"
+                 baasicPermissionsService.find("<section-name>", {
+                 search : "<search-phrase>"
                  })
                  .success(function (collection) {
                  // perform success action here
@@ -339,7 +339,7 @@
                  pageSize : 10,
                  orderBy : "publishDate",
                  orderDirection : "desc",
-                 search : "searchTerm"
+                 search : "<search-phrase>"
                  })
                  .success(function (collection) {
                  // perform success action here
@@ -358,7 +358,7 @@
                  baasicPermissionsService.getPermissionSubjects({
                  orderBy : 'name',
                  orderDirection : 'asc',
-                 search : 'searchTerm'
+                 search : '<search-phrase>'
                  })
                  .success(function (collection) {
                  // perform success action here
@@ -436,8 +436,8 @@
                  // readAction and updateActions are resources previously fetched using getActions.
                  baasicPermissionsService.create({
                  actions : [readAction, updateAction],
-                 section : "Users",
-                 userName : "userName"
+                 section : "<section-name>",
+                 userName : "<userName>"
                  })
                  .success(function (data) {
                  // perform success action here
@@ -480,7 +480,7 @@
                  })
                  .error(function (data, status, headers, config) {});
                  // subjectItem is an item fetched using baasicPermissionsService.getPermissionSubjects action.
-                 baasicPermissionsService.createPermission("sectionName", actionCollection, subjectItem);
+                 baasicPermissionsService.createPermission("<section-Name>", actionCollection, subjectItem);
                  **/
                 createPermission: function (section, actionCollection, membershipItem) {
                     var permission = {
@@ -543,7 +543,7 @@
                 /**
                  * Fetches and returns and object containing all existing module permissions.
                  * @method        
-                 * @example baasicPermissionsService.getModulePermissions("sectionName");
+                 * @example baasicPermissionsService.getModulePermissions("<section-name>");
                  **/
                 getModulePermissions: function (section) {
                     var permission = {
