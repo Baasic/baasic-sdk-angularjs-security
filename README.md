@@ -1,6 +1,6 @@
 # Baasic Security AngularJS SDK
 
-Baasic AngularJS Security library provides access to security resource Baasic Service [REST API](https://api.baasic.com/vX).
+Baasic AngularJS Security library provides access to [Baasic REST API](https://api.baasic.com/beta) security end-points.
 
 ## Dependencies
 
@@ -43,4 +43,4 @@ angular.module('my-module', ["baasic.api", "baasic.security"])
 * Please [report](../../../baasic-sdk-angularjs-security/issues) any issues you might  have found
 * Help us write the documentation
 * Create interesting apps using SDK
-* Looking for something else to do? Get in touch..
+* Looking for something else to do? Get in <u>touch</u> ...

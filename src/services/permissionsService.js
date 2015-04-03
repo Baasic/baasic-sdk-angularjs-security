@@ -64,7 +64,7 @@ baasicPermissionsService.find({
   pageNumber : 1,
   pageSize : 10,
   orderBy : "<publishDate>",
-  orderDirection : "<desc>",
+  orderDirection : "<asc|desc>",
   search : "<search-phrase>"
 })
 .success(function (collection) {
@@ -83,7 +83,7 @@ baasicPermissionsService.find({
                 * @example 
 baasicPermissionsService.getPermissionSubjects({
   orderBy : '<name>',
-  orderDirection : '<asc>',
+  orderDirection : '<asc|desc>',
   search : '<search-phrase>'
 })
 .success(function (collection) {
@@ -110,7 +110,7 @@ baasicPermissionsService.getPermissionSubjects({
                         .success(function (collection) {
                             angular.forEach(collection.item, function (item) {
                                 var membershipItem = {
-                                    name: item.userName,
+                                    name: item.username,
                                     role: ''
                                 };
                                 angular.extend(membershipItem, item);
@@ -136,7 +136,7 @@ baasicPermissionsService.getPermissionSubjects({
                                 var membershipItem = {
                                     name: item.name,
                                     roleName: item.name,
-                                    userName: ''
+                                    username: ''
                                 };
                                 angular.extend(membershipItem, item);
                                 membershipCollection.push(membershipItem);
@@ -167,7 +167,7 @@ baasicPermissionsService.getPermissionSubjects({
 baasicPermissionsService.create({
   actions : [readAction, updateAction],
   section : "<section-name>",
-  userName : "<userName>"
+  username : "<username>"
 })
 .success(function (data) {
   // perform success action here
@@ -182,13 +182,13 @@ baasicPermissionsService.create({
                  /**
                  * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This function doesn't use `baasicPermissionsRouteService` for obtaining route templates, however `remove` route can be obtained from permission resource (HAL enabled) objects like this:
 ```
-var params = baasicApiService.removeParams(permissionObject);
+var params = baasicApiService.removeParams(permission);
 var uri = params["model"].links('delete').href;
 ```
                  * @method        
                  * @example 
 // Existing resource is a resource previously fetched using get action.				 
-baasicPermissionsService.remove(existingResource)
+baasicPermissionsService.remove(permission)
 .success(function (data) {
   // perform success action here
 })
@@ -220,7 +220,7 @@ baasicPermissionsService.createPermission("<section-Name>", actionCollection, su
                     var permission = {
                         dirty: true,
                         role: membershipItem.roleName,
-                        userName: membershipItem.userName,
+                        username: membershipItem.username,
                         section: section,
                         actions: []
                     };
@@ -244,7 +244,7 @@ baasicPermissionsService.createPermission("<section-Name>", actionCollection, su
 
                         if (item.section === permission.section &&
                                ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) ||
-                               (!isEmpty(item.userName) && !isEmpty(permission.userName) && item.userName === permission.userName))) {
+                               (!isEmpty(item.username) && !isEmpty(permission.username) && item.username === permission.username))) {
                             return item;
                         }
                     }
