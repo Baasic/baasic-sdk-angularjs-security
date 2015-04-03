@@ -56,9 +56,6 @@
     /**
      * @module baasicAuthorizationService
      * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -213,13 +210,17 @@
                 }
             };
         }]);
-    }(angular, module)); /* globals module */
+    }(angular, module));
     /**
-     * @module baasicPermissionsRouteService
-     * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URI's through the [URI Template](https://github.com/Baasic/uritemplate-js) by providing it with an object that contains URI parameters. `baasicPermissionsService` uses `baasicPermissionsRouteService` to obtain a part of needed routes while the other part is obtained through HAL. Route services by convention use the same function names as their corresponding services.
      * @copyright (c) 2015 Mono
      * @license MIT
      * @author Mono
+     */
+
+    /* globals module */
+    /**
+     * @module baasicPermissionsRouteService
+     * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain a needed routes while some routes will be obtained through HAL. By convention, all route services  use the same function names as their corresponding services.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -273,18 +274,26 @@
                 /**
                  * Parses and expands URI templates based on [RFC6570](http://tools.ietf.org/html/rfc6570) specifications. For more information please visit the project [GitHub](https://github.com/Baasic/uritemplate-js) page.
                  * @method tags.parse
-                 * @example baasicPermissionsRouteService.parse('route/{?embed,fields,options}').expand({embed: '<embedded-resource>'});
+                 * @example baasicPermissionsRouteService.parse('<route>/{?embed,fields,options}').expand({embed: '<embedded-resource>'});
                  **/
                 parse: uriTemplateService.parse
             };
         }]);
-    }(angular, module)); /* globals module */
+    }(angular, module));
     /**
-     * @module baasicPermissionsService
-     * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features.
      * @copyright (c) 2015 Mono
      * @license MIT
      * @author Mono
+     * @overview 
+     ***Notes:**
+     - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about Baasic REST API end-points.
+     - [URI Template](https://github.com/Baasic/uritemplate-js) syntax enables expanding the Baasic route templates to Baasic REST URIs providing it with an object that contains URI parameters.
+     - All end-point objects are transformed by the associated route service.
+     */
+    /* globals module */
+    /**
+     * @module baasicPermissionsService
+     * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -319,7 +328,7 @@
                 /**
                  * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                  * @method        
-                 * @example 
+                 * @example f
                  baasicPermissionsService.find('<section-name>', {
                  search : '<search-phrase>'
                  })
@@ -455,7 +464,7 @@
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
                 /**
-                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This function doesn't use `baasicPermissionsRouteService` for obtaining route templates, however `remove` route can be obtained from permission resource (HAL enabled) objects like this:
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This route uses HAL enabled objects to obtain routes and therefore it doesn't use `baasicPermissionsService` route template, here is an example of how a route can be obtained from HAL enabled objects:
                  ```
                  var params = baasicApiService.removeParams(permission);
                  var uri = params['model'].links('delete').href;
@@ -566,13 +575,20 @@
                 }
             };
         }]);
-    }(angular, module)); /* globals module, Recaptcha */
+    }(angular, module));
     /**
-     * @module baasicRecaptchaService
-     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features; for more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
      * @copyright (c) 2015 Mono
      * @license MIT
      * @author Mono
+     * @overview 
+     ***Notes:**
+     - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about Baasic REST API end-points.
+     - All end-point objects are transformed by the associated route service.
+     */
+    /* globals module, Recaptcha */
+    /**
+     * @module baasicRecaptchaService
+     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features; for more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -626,4 +642,9 @@
             };
         }]);
     }(angular, module));
+    /**
+     * @copyright (c) 2015 Mono
+     * @license MIT
+     * @author Mono
+     */
 })(angular);
