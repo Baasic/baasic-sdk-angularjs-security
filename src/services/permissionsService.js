@@ -41,8 +41,8 @@
                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                 * @method        
                 * @example 
-baasicPermissionsService.find("<section-name>", {
-  search : "<search-phrase>"
+baasicPermissionsService.find('<section-name>', {
+  search : '<search-phrase>'
 })
 .success(function (collection) {
   // perform success action here
@@ -63,9 +63,9 @@ baasicPermissionsService.find("<section-name>", {
 baasicPermissionsService.find({
   pageNumber : 1,
   pageSize : 10,
-  orderBy : "<publishDate>",
-  orderDirection : "<asc|desc>",
-  search : "<search-phrase>"
+  orderBy : '<publishDate>',
+  orderDirection : '<asc|desc>',
+  search : '<search-phrase>'
 })
 .success(function (collection) {
   // perform success action here
@@ -166,8 +166,8 @@ baasicPermissionsService.getPermissionSubjects({
 // readAction and updateActions are resources previously fetched using getActions.
 baasicPermissionsService.create({
   actions : [readAction, updateAction],
-  section : "<section-name>",
-  username : "<username>"
+  section : '<section-name>',
+  username : '<username>'
 })
 .success(function (data) {
   // perform success action here
@@ -183,7 +183,7 @@ baasicPermissionsService.create({
                  * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This function doesn't use `baasicPermissionsRouteService` for obtaining route templates, however `remove` route can be obtained from permission resource (HAL enabled) objects like this:
 ```
 var params = baasicApiService.removeParams(permission);
-var uri = params["model"].links('delete').href;
+var uri = params['model'].links('delete').href;
 ```
                  * @method        
                  * @example 
@@ -214,7 +214,7 @@ return baasicLookupService.get()
 })
 .error(function (data, status, headers, config) {});
 // subjectItem is an item fetched using baasicPermissionsService.getPermissionSubjects action.
-baasicPermissionsService.createPermission("<section-Name>", actionCollection, subjectItem);
+baasicPermissionsService.createPermission('<section-Name>', actionCollection, subjectItem);
 				**/					
                 createPermission: function (section, actionCollection, membershipItem) {
                     var permission = {
@@ -279,7 +279,7 @@ baasicPermissionsService.createPermission("<section-Name>", actionCollection, su
                 /**
                 * Fetches and returns and object containing all existing module permissions.
                 * @method        
-                * @example baasicPermissionsService.getModulePermissions("<section-name>");
+                * @example baasicPermissionsService.getModulePermissions('<section-name>');
 				**/					
                 getModulePermissions: function (section) {
                     var permission = {

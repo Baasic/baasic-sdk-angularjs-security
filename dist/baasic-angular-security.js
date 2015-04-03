@@ -7,18 +7,18 @@
      * @module baasic.security 
      * @example
      (function (Main) {
-     "use strict";
+     'use strict';
      var dependencies = [
-     "baasic.api",
-     "baasic.membership",
-     "baasic.security",
-     "baasic.appSettings",
-     "baasic.article",
-     "baasic.dynamicResource",
-     "baasic.keyValue",
-     "baasic.valueSet"
+     'baasic.api',
+     'baasic.membership',
+     'baasic.security',
+     'baasic.appSettings',
+     'baasic.article',
+     'baasic.dynamicResource',
+     'baasic.keyValue',
+     'baasic.valueSet'
      ];
-     Main.module = angular.module("myApp.Main", dependencies);
+     Main.module = angular.module('myApp.Main', dependencies);
      }
      (MyApp.Modules.Main = {})); 
      */
@@ -133,8 +133,8 @@
                  * @method        
                  * @example
                  baasicLoginService.login({
-                 username : "<username>"
-                 password : "<password>"
+                 username : '<username>',
+                 password : '<password>',
                  options : ['session', 'sliding']
                  })
                  .success(function (data) {
@@ -231,7 +231,7 @@
                  * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
                  * - `sort` - A string used to set the role property to sort the result collection by.				
                  * @method        
-                 * @example baasicPermissionsRouteService.find("sectionName").expand({searchQuery: "<search-phrase>"});               
+                 * @example baasicPermissionsRouteService.find('sectionName').expand({searchQuery: '<search-phrase>'});               
                  **/
                 find: function (section) {
                     return uriTemplateService.parse('permissions/sections/{section}/{?searchQuery,sort}', section);
@@ -241,7 +241,7 @@
                  * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
                  * - `sort` - A string used to set the role property to sort the result collection by.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: "<search-phrase>"});               
+                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: '<search-phrase>'});               
                  **/
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
                 /**
@@ -251,7 +251,7 @@
                  * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "<search-phrase>"});               
+                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
                  **/
                 getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
                 /**
@@ -261,7 +261,7 @@
                  * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: "<search-phrase>"});               
+                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
                  **/
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
                 /**
@@ -273,7 +273,7 @@
                 /**
                  * Parses and expands URI templates based on [RFC6570](http://tools.ietf.org/html/rfc6570) specifications. For more information please visit the project [GitHub](https://github.com/Baasic/uritemplate-js) page.
                  * @method tags.parse
-                 * @example baasicPermissionsRouteService.parse("route/{?embed,fields,options}").expand({embed: "<embedded-resource>"});
+                 * @example baasicPermissionsRouteService.parse('route/{?embed,fields,options}').expand({embed: '<embedded-resource>'});
                  **/
                 parse: uriTemplateService.parse
             };
@@ -320,8 +320,8 @@
                  * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                  * @method        
                  * @example 
-                 baasicPermissionsService.find("<section-name>", {
-                 search : "<search-phrase>"
+                 baasicPermissionsService.find('<section-name>', {
+                 search : '<search-phrase>'
                  })
                  .success(function (collection) {
                  // perform success action here
@@ -342,9 +342,9 @@
                  baasicPermissionsService.find({
                  pageNumber : 1,
                  pageSize : 10,
-                 orderBy : "<publishDate>",
-                 orderDirection : "<asc|desc>",
-                 search : "<search-phrase>"
+                 orderBy : '<publishDate>',
+                 orderDirection : '<asc|desc>',
+                 search : '<search-phrase>'
                  })
                  .success(function (collection) {
                  // perform success action here
@@ -441,8 +441,8 @@
                  // readAction and updateActions are resources previously fetched using getActions.
                  baasicPermissionsService.create({
                  actions : [readAction, updateAction],
-                 section : "<section-name>",
-                 username : "<username>"
+                 section : '<section-name>',
+                 username : '<username>'
                  })
                  .success(function (data) {
                  // perform success action here
@@ -458,7 +458,7 @@
                  * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This function doesn't use `baasicPermissionsRouteService` for obtaining route templates, however `remove` route can be obtained from permission resource (HAL enabled) objects like this:
                  ```
                  var params = baasicApiService.removeParams(permission);
-                 var uri = params["model"].links('delete').href;
+                 var uri = params['model'].links('delete').href;
                  ```
                  * @method        
                  * @example 
@@ -489,7 +489,7 @@
                  })
                  .error(function (data, status, headers, config) {});
                  // subjectItem is an item fetched using baasicPermissionsService.getPermissionSubjects action.
-                 baasicPermissionsService.createPermission("<section-Name>", actionCollection, subjectItem);
+                 baasicPermissionsService.createPermission('<section-Name>', actionCollection, subjectItem);
                  **/
                 createPermission: function (section, actionCollection, membershipItem) {
                     var permission = {
@@ -552,7 +552,7 @@
                 /**
                  * Fetches and returns and object containing all existing module permissions.
                  * @method        
-                 * @example baasicPermissionsService.getModulePermissions("<section-name>");
+                 * @example baasicPermissionsService.getModulePermissions('<section-name>');
                  **/
                 getModulePermissions: function (section) {
                     var permission = {
