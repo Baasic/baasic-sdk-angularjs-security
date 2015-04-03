@@ -249,7 +249,7 @@
                  * Parses getRoles route which can be expanded with additional options. Supported items are: 
                  * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
                  * - `sort` - A string used to set the role property to sort the result collection by.	
-                 * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
+                 * - `page` - A value used to set the page offset, i.e. to retrieve certain resource subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
                  * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
@@ -259,7 +259,7 @@
                  * Parses getUsers route which can be expanded with additional options. Supported items are: 
                  * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
                  * - `sort` - A string used to set the role property to sort the result collection by.	
-                 * - `page` - A value used to set the page size, i.e. to retrieve certain resource subset from the storage.
+                 * - `page` - A value used to set the page offset, i.e. to retrieve certain resource subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
                  * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
