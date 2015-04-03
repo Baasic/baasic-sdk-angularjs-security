@@ -569,7 +569,7 @@
     }(angular, module)); /* globals module, Recaptcha */
     /**
      * @module baasicRecaptchaService
-     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features.
+     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features; for more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
      * @copyright (c) 2015 Mono
      * @license MIT
      * @author Mono
@@ -579,7 +579,7 @@
         module.service('baasicRecaptchaService', ['recaptchaKey', function (recaptchaKey) {
             return {
                 /**
-                 * Creates a new reCaptcha instance.
+                 * Creates a new reCaptcha instance with provided options and injects a reCapcha DOM onto a given element.
                  * @method        
                  * @example baasicRecaptchaService.create(element, {theme: 'clean'});
                  **/
@@ -592,7 +592,7 @@
                     Recaptcha.create(recaptchaKey, id, options);
                 },
                 /**
-                 * Returns a new reCaptcha challenge.
+                 * Communicates with reCaptcha service and provides a reCaptcha challenge identifier.
                  * @method        
                  * @example baasicRecaptchaService.challenge();
                  **/
@@ -600,7 +600,7 @@
                     return Recaptcha.get_challenge();
                 },
                 /**
-                 * Returns a user response.
+                 * Communicates with reCaptcha service and returns users response to a reCapcha challenge.
                  * @method        
                  * @example baasicRecaptchaService.response();
                  **/
@@ -608,7 +608,7 @@
                     return Recaptcha.get_response();
                 },
                 /**
-                 * Reloads reCaptcha challenge.
+                 * Communicates with reCaptcha service and displays a new reCaptcha challenge.
                  * @method        
                  * @example baasicRecaptchaService.reload();
                  **/
@@ -616,7 +616,7 @@
                     Recaptcha.reload();
                 },
                 /**
-                 * Destroys reCaptcha instance.
+                 * Communicates with reCaptcha service and unloads a reCapcha instance.
                  * @method        
                  * @example baasicRecaptchaService.destroy();
                  **/
