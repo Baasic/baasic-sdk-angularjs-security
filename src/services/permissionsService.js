@@ -37,7 +37,7 @@
                 /**
                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
                 * @method        
-                * @example 
+                * @example f
 baasicPermissionsService.find('<section-name>', {
   search : '<search-phrase>'
 })
@@ -177,7 +177,7 @@ baasicPermissionsService.create({
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
                  /**
-                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This function doesn't use `baasicPermissionsRouteService` for obtaining route templates, however `remove` route can be obtained from permission resource (HAL enabled) objects like this:
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This route uses HAL enabled objects to obtain routes and therefore it doesn't use `baasicPermissionsService` route template, here is an example of how a route can be obtained from HAL enabled objects:
 ```
 var params = baasicApiService.removeParams(permission);
 var uri = params['model'].links('delete').href;
