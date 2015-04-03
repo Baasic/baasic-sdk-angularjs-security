@@ -1,10 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicPermissionsService
- * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features.
- * @copyright (c) 2015 Mono
- * @license MIT
- * @author Mono
+ * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -294,3 +291,12 @@ baasicPermissionsService.createPermission('<section-Name>', actionCollection, su
             };
         }]);
 }(angular, module));
+/**
+ * @copyright (c) 2015 Mono
+ * @license MIT
+ * @author Mono
+ * @overview 
+ ***Notes:**
+ - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about Baasic REST API end-points.
+ - All end-point objects are transformed by the associated route service.
+*/

@@ -2,9 +2,6 @@
 /**
  * @module baasicAuthorizationService
  * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
- * @copyright (c) 2015 Mono
- * @license MIT
- * @author Mono
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -162,3 +159,8 @@ baasicLoginService.loadUserData()
             };
         }]);
 }(angular, module));
+/**
+ * @copyright (c) 2015 Mono
+ * @license MIT
+ * @author Mono
+*/
