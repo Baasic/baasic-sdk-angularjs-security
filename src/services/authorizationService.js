@@ -26,7 +26,7 @@
                     return user.user;
                 },
                 /**
-                * Sets the current user information. If no user information is provided, the user information is cleared from the storage and rootScope.
+                * Sets the current user information. If no user information is provided, the user information will be cleared from the storage and rootScope.
                 * @method        
                 * @example baasicAuthorizationService.setUser(null);
                 **/ 				

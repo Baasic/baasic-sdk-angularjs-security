@@ -1,7 +1,7 @@
 ﻿/* globals module, Recaptcha */
 /**
  * @module baasicRecaptchaService
- * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features; for more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
+ * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
 */
 (function (angular, module, undefined) {
     'use strict';

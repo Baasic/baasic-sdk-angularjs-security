@@ -35,9 +35,9 @@
                 **/                 
                 routeService: permissionsRouteService,
                 /**
-                * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search paramteres.
+                * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search parameters.
                 * @method        
-                * @example f
+                * @example 
 baasicPermissionsService.find('<section-name>', {
   search : '<search-phrase>'
 })
@@ -54,7 +54,7 @@ baasicPermissionsService.find('<section-name>', {
                     return baasicApiHttp.get(permissionsRouteService.find().expand(baasicApiService.findParams(params)));
                 },
                 /**
-                * Returns a promise that is resolved once the getActions action has been performed. Success response returns a list of access policies that match the specified search paramteres.
+                * Returns a promise that is resolved once the getActions action has been performed. Success response returns a list of access policies that match the specified search parameters.
                 * @method        
                 * @example 
 baasicPermissionsService.find({
@@ -157,7 +157,7 @@ baasicPermissionsService.getPermissionSubjects({
                     });
                 },
                  /**
-                 * Returns a promise that is resolved once the create action has been performed, this action creates a new permission resource.
+                 * Returns a promise that is resolved once the create action has been performed; this action creates a new permission resource.
                  * @method        
                  * @example 
 // readAction and updateActions are resources previously fetched using getActions.
@@ -177,14 +177,14 @@ baasicPermissionsService.create({
                     return baasicApiHttp.post(permissionsRouteService.create.expand(), baasicApiService.createParams(data)[baasicConstants.modelPropertyName]);
                 },
                  /**
-                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully completed an access policy assigned to the specified role and section will be removed. This route uses HAL enabled objects to obtain routes and therefore it doesn't use `baasicPermissionsService` route template, here is an example of how a route can be obtained from HAL enabled objects:
+                 * Returns a promise that is resolved once the remove action has been performed. If the action is successfully complete, an access policy assigned to the specified role and section will be removed. This route uses HAL enabled objects to obtain routes and therefore it doesn't apply `baasicPermissionsService` route template. Here is an example of how a route can be obtained from HAL enabled objects:
 ```
 var params = baasicApiService.removeParams(permission);
 var uri = params['model'].links('delete').href;
 ```
                  * @method        
                  * @example 
-// Existing resource is a resource previously fetched using get action.				 
+// permission is a resource previously fetched using get action.				 
 baasicPermissionsService.remove(permission)
 .success(function (data) {
   // perform success action here
@@ -297,6 +297,6 @@ baasicPermissionsService.createPermission('<section-Name>', actionCollection, su
  * @author Mono
  * @overview 
  ***Notes:**
- - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about Baasic REST API end-points.
+ - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about available Baasic REST API end-points.
  - All end-point objects are transformed by the associated route service.
 */
