@@ -27,10 +27,7 @@
 
     /* globals module */
     /** 
-     * @description At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive). `baasicRecaptcha` directive allows you to use the reCaptcha inside your project.
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
+     * @description `baasicRecaptcha` directive allows you to use the reCaptcha inside your project.
      * @module baasicRecaptcha
      * @example <div baasic-recaptcha></div> 
      */
@@ -52,10 +49,19 @@
                 }
             };
         }]);
-    }(angular, module)); /* globals module */
+    }(angular, module));
+    /**
+     * @copyright (c) 2015 Mono
+     * @license MIT
+     * @author Mono
+     * @overview 
+     ***Notes:**
+     - To use reCaptcha, [register your Baasic application] (https://www.google.com/recaptcha/admin#list) for an API key pair.
+     */
+    /* globals module */
     /**
      * @module baasicAuthorizationService
-     * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
+     * @description Baasic Authorization Service provides an easy way to consume Baasic Application Authorization REST API end-points.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -228,9 +234,9 @@
             return {
                 /**
                  * Parses find route which can be expanded with additional options. Supported items are: 
-                 * - `section` - Name of the permission section.
-                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                 * - `sort` - A string used to set the role property to sort the result collection by.				
+                 * - `section` - Section abbreviation which identifies part of the application for which security privileges can be retrieved and managed.
+                 * - `searchQuery` - A string value used to identify access policy resources using the phrase search. 
+                 * - `sort` - A string used to set the access policy property to sort the result collection by.				
                  * @method        
                  * @example baasicPermissionsRouteService.find('sectionName').expand({searchQuery: '<search-phrase>'});               
                  **/
@@ -239,17 +245,17 @@
                 },
                 /**
                  * Parses getActions route which can be expanded with additional options. Supported items are: 
-                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                 * - `sort` - A string used to set the role property to sort the result collection by.				
+                 * - `searchQuery` - A string value used to identify access action resources using the phrase search.  
+                 * - `sort` - A string used to set the access action property to sort the result collection by.				
                  * @method        
                  * @example baasicPermissionsRouteService.getActions.expand({searchQuery: '<search-phrase>'});               
                  **/
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
                 /**
                  * Parses getRoles route which can be expanded with additional options. Supported items are: 
-                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                 * - `sort` - A string used to set the role property to sort the result collection by.	
-                 * - `page` - A value used to set the page offset, i.e. to retrieve certain resource subset from the storage.
+                 * - `searchQuery` - A string value used to identify access policy resources using the phrase search.   
+                 * - `sort` - A string used to set the access policy property to sort the result collection by.	
+                 * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
                  * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
@@ -257,9 +263,9 @@
                 getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
                 /**
                  * Parses getUsers route which can be expanded with additional options. Supported items are: 
-                 * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                 * - `sort` - A string used to set the role property to sort the result collection by.	
-                 * - `page` - A value used to set the page offset, i.e. to retrieve certain resource subset from the storage.
+                 * - `searchQuery` - A string value used to identify access policy resources using the phrase search.     
+                 * - `sort` - A string used to set the access policy property to sort the result collection by.	
+                 * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
                  * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
@@ -293,7 +299,7 @@
     /* globals module */
     /**
      * @module baasicPermissionsService
-     * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
+     * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -320,12 +326,6 @@
 
             return {
                 /**
-                 * Provides direct access to `baasicPermissionsRouteService`.
-                 * @method        
-                 * @example baasicPermissionsService.routeService.get.expand(expandObject);
-                 **/
-                routeService: permissionsRouteService,
-                /**
                  * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search parameters.
                  * @method        
                  * @example 
@@ -351,7 +351,7 @@
                  baasicPermissionsService.find({
                  pageNumber : 1,
                  pageSize : 10,
-                 orderBy : '<publishDate>',
+                 orderBy : '<field>',
                  orderDirection : '<asc|desc>',
                  search : '<search-phrase>'
                  })
@@ -370,7 +370,7 @@
                  * @method        
                  * @example 
                  baasicPermissionsService.getPermissionSubjects({
-                 orderBy : '<name>',
+                 orderBy : '<field>',
                  orderDirection : '<asc|desc>',
                  search : '<search-phrase>'
                  })
@@ -572,7 +572,13 @@
                         full: authService.hasPermission(firstCharToLowerCase(section) + '.full')
                     };
                     return permission;
-                }
+                },
+                /**
+                 * Provides direct access to `baasicPermissionsRouteService`.
+                 * @method        
+                 * @example baasicPermissionsService.routeService.get.expand(expandObject);
+                 **/
+                routeService: permissionsRouteService
             };
         }]);
     }(angular, module));
@@ -588,14 +594,14 @@
     /* globals module, Recaptcha */
     /**
      * @module baasicRecaptchaService
-     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
+     * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha REST API end-points. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
      */
     (function (angular, module, undefined) {
         'use strict';
         module.service('baasicRecaptchaService', ['recaptchaKey', function (recaptchaKey) {
             return {
                 /**
-                 * Creates a new reCaptcha instance with provided options and injects a reCapcha DOM onto a given element.
+                 * Creates a new reCaptcha instance with provided options and injects a reCaptcha DOM onto a given element.
                  * @method        
                  * @example baasicRecaptchaService.create(element, {theme: 'clean'});
                  **/
@@ -616,7 +622,7 @@
                     return Recaptcha.get_challenge();
                 },
                 /**
-                 * Communicates with reCaptcha service and returns users response to a reCapcha challenge.
+                 * Communicates with reCaptcha service and returns users response to a reCaptcha challenge.
                  * @method        
                  * @example baasicRecaptchaService.response();
                  **/
@@ -632,7 +638,7 @@
                     Recaptcha.reload();
                 },
                 /**
-                 * Communicates with reCaptcha service and unloads a reCapcha instance.
+                 * Communicates with reCaptcha service and unloads a reCaptcha instance.
                  * @method        
                  * @example baasicRecaptchaService.destroy();
                  **/

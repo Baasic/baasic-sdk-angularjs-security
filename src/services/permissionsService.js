@@ -1,7 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicPermissionsService
- * @description Baasic Permissions Service provides an easy way to consume Baasic application permissions features. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
+ * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -29,12 +29,6 @@
 
             return {
                 /**
-                * Provides direct access to `baasicPermissionsRouteService`.
-                * @method        
-                * @example baasicPermissionsService.routeService.get.expand(expandObject);
-                **/                 
-                routeService: permissionsRouteService,
-                /**
                 * Returns a promise that is resolved once the find action has been performed. Success response returns a list of access policies that match the specified search parameters.
                 * @method        
                 * @example 
@@ -60,7 +54,7 @@ baasicPermissionsService.find('<section-name>', {
 baasicPermissionsService.find({
   pageNumber : 1,
   pageSize : 10,
-  orderBy : '<publishDate>',
+  orderBy : '<field>',
   orderDirection : '<asc|desc>',
   search : '<search-phrase>'
 })
@@ -79,7 +73,7 @@ baasicPermissionsService.find({
                 * @method        
                 * @example 
 baasicPermissionsService.getPermissionSubjects({
-  orderBy : '<name>',
+  orderBy : '<field>',
   orderDirection : '<asc|desc>',
   search : '<search-phrase>'
 })
@@ -287,7 +281,13 @@ baasicPermissionsService.createPermission('<section-Name>', actionCollection, su
                         full: authService.hasPermission(firstCharToLowerCase(section) + '.full')
                     };
                     return permission;
-                }
+                },
+                /**
+                * Provides direct access to `baasicPermissionsRouteService`.
+                * @method        
+                * @example baasicPermissionsService.routeService.get.expand(expandObject);
+                **/                 
+                routeService: permissionsRouteService
             };
         }]);
 }(angular, module));

@@ -1,9 +1,6 @@
 ﻿/* globals module */
 /** 
- * @description At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children. For more information please visit official AngularJS [documentation](https://docs.angularjs.org/guide/directive). `baasicRecaptcha` directive allows you to use the reCaptcha inside your project.
- * @copyright (c) 2015 Mono
- * @license MIT
- * @author Mono
+ * @description `baasicRecaptcha` directive allows you to use the reCaptcha inside your project.
  * @module baasicRecaptcha
  * @example <div baasic-recaptcha></div> 
 */
@@ -29,3 +26,12 @@
             };
         }]);
 }(angular, module));
+/**
+ * @copyright (c) 2015 Mono
+ * @license MIT
+ * @author Mono
+ * @overview 
+ ***Notes:**
+ - To enable reCaptcha, you need to [register for an API key pair](https://www.google.com/recaptcha/admin#list) and configure your Baasic application with obtained Public and Private Key. Intended module should be assigned to `recaptchaKey` constant which is predefined with Public Key value, while Private Key should be setup through Application Dashboard under the Application Settings section.
+*/
+

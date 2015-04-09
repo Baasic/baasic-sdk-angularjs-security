@@ -10,9 +10,9 @@
             return {
                 /**
                 * Parses find route which can be expanded with additional options. Supported items are: 
-                * - `section` - Name of the permission section.
-                * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                * - `sort` - A string used to set the role property to sort the result collection by.				
+                * - `section` - Section abbreviation which identifies part of the application for which security privileges can be retrieved and managed.
+                * - `searchQuery` - A string value used to identify access policy resources using the phrase search. 
+                * - `sort` - A string used to set the access policy property to sort the result collection by.				
                 * @method        
                 * @example baasicPermissionsRouteService.find('sectionName').expand({searchQuery: '<search-phrase>'});               
                 **/  			
@@ -21,17 +21,17 @@
                 },
                 /**
                 * Parses getActions route which can be expanded with additional options. Supported items are: 
-                * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                * - `sort` - A string used to set the role property to sort the result collection by.				
+                * - `searchQuery` - A string value used to identify access action resources using the phrase search.  
+                * - `sort` - A string used to set the access action property to sort the result collection by.				
                 * @method        
                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: '<search-phrase>'});               
                 **/  				
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
                 /**
                 * Parses getRoles route which can be expanded with additional options. Supported items are: 
-                * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                * - `sort` - A string used to set the role property to sort the result collection by.	
-                * - `page` - A value used to set the page offset, i.e. to retrieve certain resource subset from the storage.
+                * - `searchQuery` - A string value used to identify access policy resources using the phrase search.   
+                * - `sort` - A string used to set the access policy property to sort the result collection by.	
+                * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                 * - `rpp` - A value used to limit the size of result set per page.				
                 * @method        
                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
@@ -39,9 +39,9 @@
                 getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
                 /**
                 * Parses getUsers route which can be expanded with additional options. Supported items are: 
-                * - `searchQuery` - A string referencing resource properties using the phrase or query search.   
-                * - `sort` - A string used to set the role property to sort the result collection by.	
-                * - `page` - A value used to set the page offset, i.e. to retrieve certain resource subset from the storage.
+                * - `searchQuery` - A string value used to identify access policy resources using the phrase search.     
+                * - `sort` - A string used to set the access policy property to sort the result collection by.	
+                * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                 * - `rpp` - A value used to limit the size of result set per page.				
                 * @method        
                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               

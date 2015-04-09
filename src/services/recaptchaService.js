@@ -1,7 +1,7 @@
 ﻿/* globals module, Recaptcha */
 /**
  * @module baasicRecaptchaService
- * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha features. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
+ * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha REST API end-points. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -9,7 +9,7 @@
         function (recaptchaKey) {
             return {
                 /**
-                * Creates a new reCaptcha instance with provided options and injects a reCapcha DOM onto a given element.
+                * Creates a new reCaptcha instance with provided options and injects a reCaptcha DOM onto a given element.
                 * @method        
                 * @example baasicRecaptchaService.create(element, {theme: 'clean'});
                 **/ 			
@@ -31,7 +31,7 @@
                     return Recaptcha.get_challenge();
                 },
                 /**
-                * Communicates with reCaptcha service and returns users response to a reCapcha challenge.
+                * Communicates with reCaptcha service and returns users response to a reCaptcha challenge.
                 * @method        
                 * @example baasicRecaptchaService.response();
                 **/ 				
@@ -48,7 +48,7 @@
                     Recaptcha.reload();
                 },
                 /**
-                * Communicates with reCaptcha service and unloads a reCapcha instance.
+                * Communicates with reCaptcha service and unloads a reCaptcha instance.
                 * @method        
                 * @example baasicRecaptchaService.destroy();
                 **/ 				

@@ -1,7 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicAuthorizationService
- * @description Baasic Authorization Service provides an easy way to consume Baasic application authorization features.
+ * @description Baasic Authorization Service provides an easy way to consume Baasic Application Authorization REST API end-points.
 */
 (function (angular, module, undefined) {
     'use strict';
