@@ -1,6 +1,6 @@
 {
   "name": "baasic-angular-security",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Baasic AngularJS SDK security modules and services.",
   "keywords": [
     "angularjs",
@@ -27,6 +27,6 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "baasic-angular-core": "http://gitserver/monosoftware/baasic-sdk-angularjs-core.git#~0.2.0"
+    "baasic-angular-core": "Baasic/baasic-sdk-angularjs-core"
   }
 }
