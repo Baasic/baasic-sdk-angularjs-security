@@ -1,6 +1,6 @@
 {
-  "name": "baasic-angular-security",
-  "version": "0.2.2",
+  "name": "baasic-angularjs-security",
+  "version": "0.2.3",
   "description": "Baasic AngularJS SDK security modules and services.",
   "keywords": [
     "angularjs",
@@ -27,6 +27,6 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "baasic-angular-core": "Baasic/baasic-sdk-angularjs-core"
+    "baasic-angularjs-core": "Baasic/baasic-sdk-angularjs-core"
   }
 }
