@@ -2,6 +2,9 @@
 /**
  * @module baasicRecaptchaService
  * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha REST API end-points. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
+ * @copyright (c) 2015 Mono
+ * @license MIT
+ * @author Mono
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -58,8 +61,3 @@
             };
         }]);
 }(angular, module));
-/**
- * @copyright (c) 2015 Mono
- * @license MIT
- * @author Mono
-*/
