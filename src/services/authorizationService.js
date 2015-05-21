@@ -9,11 +9,19 @@
 (function (angular, module, undefined) {
     'use strict';
     var permissionHash = {};
-    module.service('baasicAuthorizationService', ['$rootScope', 'baasicApp',
-        function ($rootScope, baasicApp) {
-            var app = baasicApp.get();
-            var apiKey = app.getApiKey();
-            permissionHash[apiKey] = {};
+    module.service('baasicAuthorizationService', ['$rootScope', '$document', 'baasicApp',
+        function ($rootScope, $document, baasicApp) {
+            var app = baasicApp.get(),
+				apiKey = app.getApiKey();
+			permissionHash[apiKey] = {};
+			
+			angular.element($document).bind("tokenExpired", function () {
+				if ($rootScope.user === undefined &&
+                            user.user !== undefined) {
+                        $rootScope.user.isAuthenticated = false;
+                    }
+			});
+			
             return {
                 /**
                 * Gets the currently logged in user.

@@ -1,6 +1,6 @@
 {
   "name": "baasic-angularjs-security",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "devDependencies": {
     "baasic-javascript-docgen": "git://github.com/Baasic/baasic-javascript-docgen",
     "gulp": ">3.4.0",
