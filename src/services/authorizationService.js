@@ -2,9 +2,6 @@
 /**
  * @module baasicAuthorizationService
  * @description Baasic Authorization Service provides an easy way to consume Baasic Application Authorization REST API end-points.
- * @copyright (c) 2015 Mono
- * @license MIT
- * @author Mono
 */
 (function (angular, module, undefined) {
     'use strict';
