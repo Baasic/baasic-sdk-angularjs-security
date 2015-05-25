@@ -9,13 +9,14 @@
     module.service('baasicAuthorizationService', ['$rootScope', '$document', 'baasicApp',
         function ($rootScope, $document, baasicApp) {
             var app = baasicApp.get(),
-				apiKey = app.getApiKey();
+            apiKey = app.getApiKey();
 			permissionHash[apiKey] = {};
 			
-			angular.element($document).bind("tokenExpired", function () {
-				if ($rootScope.user === undefined &&
-                            user.user !== undefined) {
-                        $rootScope.user.isAuthenticated = false;
+			angular.element($document).bind('tokenExpired', function () {
+                var user = app.getUser();
+				if ($rootScope.user !== undefined &&
+                            user !== undefined) {
+                        $rootScope.user.isAuthenticated = user.isAuthenticated();
                     }
 			});
 			

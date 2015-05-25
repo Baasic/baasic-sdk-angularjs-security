@@ -1,9 +1,6 @@
 (function (angular, undefined) { /* exported module */
     /** 
      * @description The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism. An angular module is a container for the different parts of your app - services, directives etc. In order to use `baasic.security` module functionality it must be added as a dependency to your app.
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      * @module baasic.security 
      * @example
      (function (Main) {
@@ -51,9 +48,6 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      * @overview 
      ***Notes:**
      - To enable reCaptcha, you need to [register for an API key pair](https://www.google.com/recaptcha/admin#list) and configure your Baasic application using the obtained Public and Private Key. Intended module should be assigned to `recaptchaKey` constant which is predefined with Public Key value, while Private Key should be set-up through Application Dashboard under the Application Settings section.
@@ -64,17 +58,22 @@
     /**
      * @module baasicAuthorizationService
      * @description Baasic Authorization Service provides an easy way to consume Baasic Application Authorization REST API end-points.
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
         var permissionHash = {};
-        module.service('baasicAuthorizationService', ['$rootScope', 'baasicApp', function ($rootScope, baasicApp) {
-            var app = baasicApp.get();
-            var apiKey = app.getApiKey();
+        module.service('baasicAuthorizationService', ['$rootScope', '$document', 'baasicApp', function ($rootScope, $document, baasicApp) {
+            var app = baasicApp.get(),
+                apiKey = app.getApiKey();
             permissionHash[apiKey] = {};
+
+            angular.element($document).bind('tokenExpired', function () {
+                var user = app.getUser();
+                if ($rootScope.user !== undefined && user !== undefined) {
+                    $rootScope.user.isAuthenticated = user.isAuthenticated();
+                }
+            });
+
             return {
                 /**
                  * Gets the currently logged in user.
@@ -307,9 +306,6 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      * @overview 
      ***Notes:**
      - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about available Baasic REST API end-points.
@@ -603,9 +599,6 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      * @overview 
      ***Notes:**
      - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about available Baasic REST API end-points.
@@ -615,9 +608,6 @@
     /**
      * @module baasicRecaptchaService
      * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha REST API end-points. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
-     * @copyright (c) 2015 Mono
-     * @license MIT
-     * @author Mono
      */
     (function (angular, module, undefined) {
         'use strict';
