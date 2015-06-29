@@ -413,7 +413,7 @@
                     getUsers(options).success(function (collection) {
                         angular.forEach(collection.item, function (item) {
                             var membershipItem = {
-                                name: item.username,
+                                name: item.userName,
                                 role: ''
                             };
                             angular.extend(membershipItem, item);
@@ -437,7 +437,7 @@
                             var membershipItem = {
                                 name: item.name,
                                 roleName: item.name,
-                                username: ''
+                                userName: ''
                             };
                             angular.extend(membershipItem, item);
                             membershipCollection.push(membershipItem);
@@ -467,7 +467,7 @@
                  baasicPermissionsService.create({
                  actions : [readAction, updateAction],
                  section : '<section-name>',
-                 username : '<username>'
+                 userName : '<userName>'
                  })
                  .success(function (data) {
                  // perform success action here
@@ -520,7 +520,7 @@
                     var permission = {
                         dirty: true,
                         role: membershipItem.roleName,
-                        username: membershipItem.username,
+                        userName: membershipItem.userName,
                         section: section,
                         actions: []
                     };
@@ -542,7 +542,7 @@
                     for (var i = 0; i < permissionCollection.length; i++) {
                         var item = permissionCollection[i];
 
-                        if (item.section === permission.section && ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) || (!isEmpty(item.username) && !isEmpty(permission.username) && item.username === permission.username))) {
+                        if (item.section === permission.section && ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) || (!isEmpty(item.userName) && !isEmpty(permission.userName) && item.userName === permission.userName))) {
                             return item;
                         }
                     }
