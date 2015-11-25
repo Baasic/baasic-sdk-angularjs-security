@@ -271,7 +271,7 @@
                  {searchQuery: '<search-phrase>'}
                  );
                  **/
-                getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
+                getRoles: uriTemplateService.parse('lookups/roles/{?searchQuery,page,rpp,sort}'),
                 /**
                  * Parses getUsers route which can be expanded with additional options. Supported items are: 
                  * - `searchQuery` - A string value used to identify access policy resources using the phrase search.     
