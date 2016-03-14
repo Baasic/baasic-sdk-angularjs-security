@@ -1,7 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicPermissionsService
- * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
+ * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
 */
 (function (angular, module, undefined) {
     'use strict';

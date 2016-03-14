@@ -226,7 +226,7 @@
     /* globals module */
     /**
      * @module baasicPermissionsRouteService
-     * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain a needed routes while other routes will be obtained through HAL. By convention, all route services use the same function names as their corresponding services.
+     * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain needed routes while other routes will be obtained through HAL. By convention, all route services use the same function names as their corresponding services.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -315,7 +315,7 @@
     /* globals module */
     /**
      * @module baasicPermissionsService
-     * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
+     * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
      */
     (function (angular, module, undefined) {
         'use strict';
