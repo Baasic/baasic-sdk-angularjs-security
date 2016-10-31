@@ -5,6 +5,7 @@ var gulp = require('gulp'),
 	plugins = require('gulp-load-plugins')(),
 	stylish = require('jshint-stylish');
 var docgen = require('baasic-javascript-docgen');	
+var injectVersion = require('gulp-inject-version');
 
 var paths = {
   scripts: ['src/**/*.js']
@@ -23,11 +24,12 @@ gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
     .pipe(plugins.order(['*.moduleDefinition.js', '*.js']))
 	.pipe(plugins.concat('baasic-angular-security.js'))
-	.pipe(plugins.header('(function (angular, undefined) {\n'))
+	.pipe(plugins.header('/*\n Baasic AngularJS Security %%GULP_INJECT_VERSION%%\n (c) 2014-2016 Mono http://baasic.com\n License: MIT\n*/\n(function (angular, undefined) {\n'))    
 	.pipe(plugins.footer('\n})(angular);'))
+    .pipe(injectVersion())
 	.pipe(plugins.beautify())
 	.pipe(gulp.dest('dist'))
-	.pipe(plugins.uglify())
+	.pipe(plugins.uglify({output: {comments: /^!|License: MIT/i}}))
 	.pipe(plugins.rename('baasic-angular-security.min.js'))
 	.pipe(gulp.dest('dist'));
 });
