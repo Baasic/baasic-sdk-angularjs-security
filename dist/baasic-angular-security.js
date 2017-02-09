@@ -1,3 +1,8 @@
+/*
+ Baasic AngularJS Security v1.0.1
+ (c) 2014-2017 Mono Ltd. http://baasic.com
+ License: MIT
+*/
 (function (angular, undefined) { /* exported module */
     /** 
      * @description The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism. An angular module is a container for the different parts of your app - services, directives etc. In order to use `baasic.security` module functionality it must be added as a dependency to your app.
@@ -56,7 +61,7 @@
      * @author Mono Ltd
      * @overview 
      ***Notes:**
-     - To enable reCaptcha, you need to [register for an API key pair](https://www.google.com/recaptcha/admin#list) and configure your Baasic application with obtained Public and Private Key. Intended module should be assigned to `recaptchaKey` constant which is predefined with Public Key value, while Private Key should be setup through Application Dashboard under the Application Settings section.
+     - To enable reCaptcha, you need to [register for an API key pair](https://www.google.com/recaptcha/admin#list) and configure your Baasic application using the obtained Public and Private Key. Intended module should be assigned to `recaptchaKey` constant which is predefined with Public Key value, while Private Key should be set-up through Application Dashboard under the Application Settings section.
      */
 
 
@@ -68,13 +73,21 @@
     (function (angular, module, undefined) {
         'use strict';
         var permissionHash = {};
-        module.service('baasicAuthorizationService', ['$rootScope', 'baasicApp', function ($rootScope, baasicApp) {
-            var app = baasicApp.get();
-            var apiKey = app.getApiKey();
+        module.service('baasicAuthorizationService', ['$rootScope', '$document', 'baasicApp', function ($rootScope, $document, baasicApp) {
+            var app = baasicApp.get(),
+                apiKey = app.getApiKey();
             permissionHash[apiKey] = {};
+
+            angular.element($document).bind('tokenExpired', function () {
+                var user = app.getUser();
+                if ($rootScope.user !== undefined && user !== undefined) {
+                    $rootScope.user.isAuthenticated = user.isAuthenticated();
+                }
+            });
+
             return {
                 /**
-                 * Gets user the currently logged in user.
+                 * Gets the currently logged in user.
                  * @method        
                  * @example baasicAuthorizationService.getUser();
                  **/
@@ -170,14 +183,7 @@
                 /**
                  * Checks if current user has permissions to perform a certain action. To optimize performance this information is cached and can be reset using the resetPermissions action. Permissions cache should be reset when updated user information is set.
                  * @method        
-                 * @example
-                 baasicLoginService.loadUserData()
-                 .success(function (data) {
-                 baasicAuthorizationService.resetPermissions();
-                 baasicAuthorizationService.updateUser(data);
-                 })
-                 .error(function (data) {})
-                 .finally (function () {});
+                 * @example baasicAuthorizationService.hasPermission("<baasic-Section>.<action>");				
                  **/
                 hasPermission: function (authorization) {
                     if (permissionHash[apiKey].hasOwnProperty(authorization)) {
@@ -228,7 +234,7 @@
     /* globals module */
     /**
      * @module baasicPermissionsRouteService
-     * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain a needed routes while other routes will be obtained through HAL. By convention, all route services use the same function names as their corresponding services.
+     * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain needed routes while other routes will be obtained through HAL. By convention, all route services use the same function names as their corresponding services.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -240,7 +246,12 @@
                  * - `searchQuery` - A string value used to identify access policy resources using the phrase search. 
                  * - `sort` - A string used to set the access policy property to sort the result collection by.				
                  * @method        
-                 * @example baasicPermissionsRouteService.find('sectionName').expand({searchQuery: '<search-phrase>'});               
+                 * @example 
+                 baasicPermissionsRouteService.find(
+                 'sectionName'
+                 ).expand(
+                 {searchQuery: '<search-phrase>'}
+                 );
                  **/
                 find: function (section) {
                     return uriTemplateService.parse('permissions/sections/{section}/{?searchQuery,sort}', section);
@@ -250,7 +261,10 @@
                  * - `searchQuery` - A string value used to identify access action resources using the phrase search.  
                  * - `sort` - A string used to set the access action property to sort the result collection by.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getActions.expand({searchQuery: '<search-phrase>'});               
+                 * @example 
+                 baasicPermissionsRouteService.getActions.expand(
+                 {searchQuery: '<search-phrase>'}
+                 );
                  **/
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
                 /**
@@ -260,9 +274,12 @@
                  * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
+                 * @example 
+                 baasicPermissionsRouteService.getRoles.expand(
+                 {searchQuery: '<search-phrase>'}
+                 );
                  **/
-                getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
+                getRoles: uriTemplateService.parse('lookups/roles/{?searchQuery,page,rpp,sort}'),
                 /**
                  * Parses getUsers route which can be expanded with additional options. Supported items are: 
                  * - `searchQuery` - A string value used to identify access policy resources using the phrase search.     
@@ -270,7 +287,10 @@
                  * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                  * - `rpp` - A value used to limit the size of result set per page.				
                  * @method        
-                 * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
+                 * @example 
+                 baasicPermissionsRouteService.getRoles.expand(
+                 {searchQuery: '<search-phrase>'}
+                 );
                  **/
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
                 /**
@@ -282,7 +302,12 @@
                 /**
                  * Parses and expands URI templates based on [RFC6570](http://tools.ietf.org/html/rfc6570) specifications. For more information please visit the project [GitHub](https://github.com/Baasic/uritemplate-js) page.
                  * @method tags.parse
-                 * @example baasicPermissionsRouteService.parse('<route>/{?embed,fields,options}').expand({embed: '<embedded-resource>'});
+                 * @example 
+                 baasicPermissionsRouteService.parse(
+                 '<route>/{?embed,fields,options}'
+                 ).expand(
+                 {embed: '<embedded-resource>'}
+                 );
                  **/
                 parse: uriTemplateService.parse
             };
@@ -301,7 +326,7 @@
     /* globals module */
     /**
      * @module baasicPermissionsService
-     * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
+     * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
      */
     (function (angular, module, undefined) {
         'use strict';
@@ -399,7 +424,7 @@
                     getUsers(options).success(function (collection) {
                         angular.forEach(collection.item, function (item) {
                             var membershipItem = {
-                                name: item.username,
+                                name: item.userName,
                                 role: ''
                             };
                             angular.extend(membershipItem, item);
@@ -423,7 +448,7 @@
                             var membershipItem = {
                                 name: item.name,
                                 roleName: item.name,
-                                username: ''
+                                userName: ''
                             };
                             angular.extend(membershipItem, item);
                             membershipCollection.push(membershipItem);
@@ -453,7 +478,7 @@
                  baasicPermissionsService.create({
                  actions : [readAction, updateAction],
                  section : '<section-name>',
-                 username : '<username>'
+                 userName : '<userName>'
                  })
                  .success(function (data) {
                  // perform success action here
@@ -506,7 +531,7 @@
                     var permission = {
                         dirty: true,
                         role: membershipItem.roleName,
-                        username: membershipItem.username,
+                        userName: membershipItem.userName,
                         section: section,
                         actions: []
                     };
@@ -528,7 +553,7 @@
                     for (var i = 0; i < permissionCollection.length; i++) {
                         var item = permissionCollection[i];
 
-                        if (item.section === permission.section && ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) || (!isEmpty(item.username) && !isEmpty(permission.username) && item.username === permission.username))) {
+                        if (item.section === permission.section && ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) || (!isEmpty(item.userName) && !isEmpty(permission.userName) && item.userName === permission.userName))) {
                             return item;
                         }
                     }
@@ -593,7 +618,7 @@
      - Refer to the [Baasic REST API](http://dev.baasic.com/api/reference/home) for detailed information about available Baasic REST API end-points.
      - All end-point objects are transformed by the associated route service.
      */
-    /* globals module, Recaptcha */
+    /* globals module, grecaptcha */
     /**
      * @module baasicRecaptchaService
      * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha REST API end-points. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
@@ -639,7 +664,7 @@
                     var result;
                     if (!widgetId) {
                         angular.forEach(wInstances, function (value, key) {
-                            if (key != undefined) {
+                            if (key !== undefined) {
                                 result = grecaptcha.getResponse(key);
                             }
                         });
@@ -657,7 +682,7 @@
                     var result;
                     if (!widgetId) {
                         angular.forEach(wInstances, function (value, key) {
-                            if (key != undefined) {
+                            if (key !== undefined) {
                                 result = grecaptcha.reset(key);
                             }
                         });

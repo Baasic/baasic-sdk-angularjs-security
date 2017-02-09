@@ -1,4 +1,4 @@
-﻿/* globals module, Recaptcha */
+﻿/* globals module, grecaptcha */
 /**
  * @module baasicRecaptchaService
  * @description `baasicRecaptchaService` provides an easy way to consume ReCapctcha REST API end-points. For more information please visit [reCaptcha documentation](https://code.google.com/p/recaptcha/wiki/HowToSetUpRecaptcha).
@@ -47,7 +47,7 @@
                     var result;
                     if (!widgetId) {
                         angular.forEach(wInstances, function(value, key) {
-                            if (key != undefined) {
+                            if (key !== undefined) {
                                 result = grecaptcha.getResponse(key);
                             }
                         });
@@ -65,7 +65,7 @@
                     var result;
                     if (!widgetId) {
                         angular.forEach(wInstances, function(value, key) {
-                            if (key != undefined) {
+                            if (key !== undefined) {
                                 result = grecaptcha.reset(key);
                             }
                         });             
