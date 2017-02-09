@@ -292,11 +292,11 @@ baasicPermissionsService.createPermission('<section-Name>', actionCollection, su
         }]);
 }(angular, module));
 /**
- * @copyright (c) 2015 Mono
+ * @copyright (c) 2017 Mono Ltd
  * @license MIT
- * @author Mono
+ * @author Mono Ltd
  * @overview 
  ***Notes:**
- - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about available Baasic REST API end-points.
+ - Refer to the [Baasic REST API](http://dev.baasic.com/api/reference/home) for detailed information about available Baasic REST API end-points.
  - All end-point objects are transformed by the associated route service.
 */

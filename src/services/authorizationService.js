@@ -160,7 +160,7 @@ baasicLoginService.loadUserData()
         }]);
 }(angular, module));
 /**
- * @copyright (c) 2015 Mono
+ * @copyright (c) 2017 Mono Ltd
  * @license MIT
- * @author Mono
+ * @author Mono Ltd
 */

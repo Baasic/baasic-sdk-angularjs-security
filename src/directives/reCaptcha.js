@@ -6,20 +6,20 @@
 */
 (function (angular, module, undefined) {
     'use strict';
-    module.directive('baasicRecaptcha', ['baasicRecaptchaService',
+    module.directive('baasicRecaptcha', ['baasicRecaptchaService', 
         function (recaptchaService) {
             return {
-                restrict: 'A',
-                link: function (scope, elem) {
-                    recaptchaService.create(elem,
+                restrict: 'A',                
+                link: function (scope, elem) {                    
+                    scope.widgetId = recaptchaService.create(elem,
                         {
-                            theme: 'clean'
+                            theme: 'light'
                         }
                     );
 
                     scope.$on('$destroy', function () {
                         if (recaptchaService) {
-                            recaptchaService.destroy();
+                            recaptchaService.destroy(scope.widgetId);
                         }
                     });
                 }
@@ -27,9 +27,9 @@
         }]);
 }(angular, module));
 /**
- * @copyright (c) 2015 Mono
+ * @copyright (c) 2017 Mono Ltd
  * @license MIT
- * @author Mono
+ * @author Mono Ltd
  * @overview 
  ***Notes:**
  - To enable reCaptcha, you need to [register for an API key pair](https://www.google.com/recaptcha/admin#list) and configure your Baasic application with obtained Public and Private Key. Intended module should be assigned to `recaptchaKey` constant which is predefined with Public Key value, while Private Key should be setup through Application Dashboard under the Application Settings section.

@@ -1,9 +1,9 @@
 (function (angular, undefined) { /* exported module */
     /** 
      * @description The angular.module is a global place for creating, registering or retrieving modules. All modules should be registered in an application using this mechanism. An angular module is a container for the different parts of your app - services, directives etc. In order to use `baasic.security` module functionality it must be added as a dependency to your app.
-     * @copyright (c) 2015 Mono
+     * @copyright (c) 2017 Mono Ltd
      * @license MIT
-     * @author Mono
+     * @author Mono Ltd
      * @module baasic.security 
      * @example
      (function (Main) {
@@ -37,13 +37,13 @@
             return {
                 restrict: 'A',
                 link: function (scope, elem) {
-                    recaptchaService.create(elem, {
-                        theme: 'clean'
+                    scope.widgetId = recaptchaService.create(elem, {
+                        theme: 'light'
                     });
 
                     scope.$on('$destroy', function () {
                         if (recaptchaService) {
-                            recaptchaService.destroy();
+                            recaptchaService.destroy(scope.widgetId);
                         }
                     });
                 }
@@ -51,13 +51,15 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
+     * @copyright (c) 2017 Mono Ltd
      * @license MIT
-     * @author Mono
+     * @author Mono Ltd
      * @overview 
      ***Notes:**
-     - To use reCaptcha, [register your Baasic application] (https://www.google.com/recaptcha/admin#list) for an API key pair.
+     - To enable reCaptcha, you need to [register for an API key pair](https://www.google.com/recaptcha/admin#list) and configure your Baasic application with obtained Public and Private Key. Intended module should be assigned to `recaptchaKey` constant which is predefined with Public Key value, while Private Key should be setup through Application Dashboard under the Application Settings section.
      */
+
+
     /* globals module */
     /**
      * @module baasicAuthorizationService
@@ -218,9 +220,9 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
+     * @copyright (c) 2017 Mono Ltd
      * @license MIT
-     * @author Mono
+     * @author Mono Ltd
      */
 
     /* globals module */
@@ -287,12 +289,12 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
+     * @copyright (c) 2017 Mono Ltd
      * @license MIT
-     * @author Mono
+     * @author Mono Ltd
      * @overview 
      ***Notes:**
-     - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about available Baasic REST API end-points.
+     - Refer to the [Baasic REST API](http://dev.baasic.com/api/reference/home) for detailed information about available Baasic REST API end-points.
      - [URI Template](https://github.com/Baasic/uritemplate-js) syntax enables expanding the Baasic route templates to Baasic REST URIs providing it with an object that contains URI parameters.
      - All end-point objects are transformed by the associated route service.
      */
@@ -583,12 +585,12 @@
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
+     * @copyright (c) 2017 Mono Ltd
      * @license MIT
-     * @author Mono
+     * @author Mono Ltd
      * @overview 
      ***Notes:**
-     - Refer to the [REST API documentation](https://github.com/Baasic/baasic-rest-api/wiki) for detailed information about available Baasic REST API end-points.
+     - Refer to the [Baasic REST API](http://dev.baasic.com/api/reference/home) for detailed information about available Baasic REST API end-points.
      - All end-point objects are transformed by the associated route service.
      */
     /* globals module, Recaptcha */
@@ -599,6 +601,7 @@
     (function (angular, module, undefined) {
         'use strict';
         module.service('baasicRecaptchaService', ['recaptchaKey', function (recaptchaKey) {
+            var wInstances = [];
             return {
                 /**
                  * Creates a new reCaptcha instance with provided options and injects a reCaptcha DOM onto a given element.
@@ -611,7 +614,13 @@
                         id = 'recaptcha-' + Math.random() * 10000;
                         elem.attr('id', id);
                     }
-                    Recaptcha.create(recaptchaKey, id, options);
+
+                    var response = grecaptcha.render(id, angular.extend({
+                        'sitekey': recaptchaKey
+                    }, options));
+
+                    wInstances[response] = elem;
+                    return response;
                 },
                 /**
                  * Communicates with reCaptcha service and provides a reCaptcha challenge identifier.
@@ -619,38 +628,60 @@
                  * @example baasicRecaptchaService.challenge();
                  **/
                 challenge: function () { /* jshint camelcase: false */
-                    return Recaptcha.get_challenge();
+                    return {};
                 },
                 /**
                  * Communicates with reCaptcha service and returns users response to a reCaptcha challenge.
                  * @method        
                  * @example baasicRecaptchaService.response();
                  **/
-                response: function () { /* jshint camelcase: false */
-                    return Recaptcha.get_response();
+                response: function (widgetId) { /* jshint camelcase: false */
+                    var result;
+                    if (!widgetId) {
+                        angular.forEach(wInstances, function (value, key) {
+                            if (key != undefined) {
+                                result = grecaptcha.getResponse(key);
+                            }
+                        });
+                    } else {
+                        result = grecaptcha.getResponse(widgetId);
+                    }
+                    return result;
                 },
                 /**
                  * Communicates with reCaptcha service and displays a new reCaptcha challenge.
                  * @method        
                  * @example baasicRecaptchaService.reload();
                  **/
-                reload: function () {
-                    Recaptcha.reload();
+                reload: function (widgetId) {
+                    var result;
+                    if (!widgetId) {
+                        angular.forEach(wInstances, function (value, key) {
+                            if (key != undefined) {
+                                result = grecaptcha.reset(key);
+                            }
+                        });
+                    } else {
+                        result = grecaptcha.reset(widgetId);
+                    }
+                    return result;
                 },
                 /**
                  * Communicates with reCaptcha service and unloads a reCaptcha instance.
                  * @method        
                  * @example baasicRecaptchaService.destroy();
                  **/
-                destroy: function () {
-                    Recaptcha.destroy();
+                destroy: function (widgetId) {
+                    if (widgetId) {
+                        delete wInstances[widgetId];
+                    }
                 }
             };
         }]);
     }(angular, module));
     /**
-     * @copyright (c) 2015 Mono
+     * @copyright (c) 2017 Mono Ltd
      * @license MIT
-     * @author Mono
+     * @author Mono Ltd
      */
 })(angular);

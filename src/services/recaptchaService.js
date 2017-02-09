@@ -6,7 +6,8 @@
 (function (angular, module, undefined) {
     'use strict';
     module.service('baasicRecaptchaService', ['recaptchaKey',
-        function (recaptchaKey) {
+        function (recaptchaKey) {  
+            var wInstances = [];          
             return {
                 /**
                 * Creates a new reCaptcha instance with provided options and injects a reCaptcha DOM onto a given element.
@@ -19,7 +20,13 @@
                         id = 'recaptcha-' + Math.random() * 10000;
                         elem.attr('id', id);
                     }
-                    Recaptcha.create(recaptchaKey, id, options);
+
+                    var response = grecaptcha.render(id, angular.extend({
+                    'sitekey' : recaptchaKey
+                    }, options));
+
+                    wInstances[response] = elem;
+                    return response;                    
                 },
                 /**
                 * Communicates with reCaptcha service and provides a reCaptcha challenge identifier.
@@ -27,39 +34,61 @@
                 * @example baasicRecaptchaService.challenge();
                 **/ 				
                 challenge: function () {
-					/* jshint camelcase: false */
-                    return Recaptcha.get_challenge();
+					/* jshint camelcase: false */                    
+                    return {};
                 },
                 /**
                 * Communicates with reCaptcha service and returns users response to a reCaptcha challenge.
                 * @method        
                 * @example baasicRecaptchaService.response();
                 **/ 				
-                response: function () {
+                response: function (widgetId) {                    
 					/* jshint camelcase: false */
-                    return Recaptcha.get_response();
+                    var result;
+                    if (!widgetId) {
+                        angular.forEach(wInstances, function(value, key) {
+                            if (key != undefined) {
+                                result = grecaptcha.getResponse(key);
+                            }
+                        });
+                    } else {
+                        result =  grecaptcha.getResponse(widgetId);
+                    }
+                    return result;
                 },
                 /**
                 * Communicates with reCaptcha service and displays a new reCaptcha challenge.
                 * @method        
                 * @example baasicRecaptchaService.reload();
                 **/ 				
-                reload: function () {
-                    Recaptcha.reload();
+                reload: function (widgetId) {
+                    var result;
+                    if (!widgetId) {
+                        angular.forEach(wInstances, function(value, key) {
+                            if (key != undefined) {
+                                result = grecaptcha.reset(key);
+                            }
+                        });             
+                    } else {       
+                        result = grecaptcha.reset(widgetId);
+                    }
+                    return result;
                 },
                 /**
                 * Communicates with reCaptcha service and unloads a reCaptcha instance.
                 * @method        
                 * @example baasicRecaptchaService.destroy();
                 **/ 				
-                destroy: function () {
-                    Recaptcha.destroy();
+                destroy: function (widgetId) {
+                     if (widgetId) {
+                        delete wInstances[widgetId];
+                     }                    
                 }
             };
         }]);
 }(angular, module));
 /**
- * @copyright (c) 2015 Mono
+ * @copyright (c) 2017 Mono Ltd
  * @license MIT
- * @author Mono
+ * @author Mono Ltd
 */
