@@ -6,14 +6,23 @@
 (function (angular, module, undefined) {
     'use strict';
     var permissionHash = {};
-    module.service('baasicAuthorizationService', ['$rootScope', 'baasicApp',
-        function ($rootScope, baasicApp) {
-            var app = baasicApp.get();
-            var apiKey = app.getApiKey();
-            permissionHash[apiKey] = {};
+    module.service('baasicAuthorizationService', ['$rootScope', '$document', 'baasicApp',
+        function ($rootScope, $document, baasicApp) {
+            var app = baasicApp.get(),
+            apiKey = app.getApiKey();
+			permissionHash[apiKey] = {};
+			
+			angular.element($document).bind('tokenExpired', function () {
+                var user = app.getUser();
+				if ($rootScope.user !== undefined &&
+                            user !== undefined) {
+                        $rootScope.user.isAuthenticated = user.isAuthenticated();
+                    }
+			});
+			
             return {
                 /**
-                * Gets user the currently logged in user.
+                * Gets the currently logged in user.
                 * @method        
                 * @example baasicAuthorizationService.getUser();
                 **/ 			
@@ -110,14 +119,7 @@ baasicLoginService.loadUserData()
                 /**
                 * Checks if current user has permissions to perform a certain action. To optimize performance this information is cached and can be reset using the resetPermissions action. Permissions cache should be reset when updated user information is set.
                 * @method        
-                * @example
-baasicLoginService.loadUserData()
-.success(function (data) {
-  baasicAuthorizationService.resetPermissions();
-  baasicAuthorizationService.updateUser(data);
-})
-.error(function (data) {})
-.finally (function () {});				
+                * @example baasicAuthorizationService.hasPermission("<baasic-Section>.<action>");				
                 **/ 				
                 hasPermission: function (authorization) {
                     if (permissionHash[apiKey].hasOwnProperty(authorization)) {

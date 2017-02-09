@@ -1,7 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicPermissionsRouteService
- * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain a needed routes while other routes will be obtained through HAL. By convention, all route services use the same function names as their corresponding services.
+ * @description Baasic Permissions Route Service provides Baasic route templates which can be expanded to Baasic REST URIs. Various services can use Baasic Permissions Route Service to obtain needed routes while other routes will be obtained through HAL. By convention, all route services use the same function names as their corresponding services.
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -14,7 +14,12 @@
                 * - `searchQuery` - A string value used to identify access policy resources using the phrase search. 
                 * - `sort` - A string used to set the access policy property to sort the result collection by.				
                 * @method        
-                * @example baasicPermissionsRouteService.find('sectionName').expand({searchQuery: '<search-phrase>'});               
+                * @example 
+baasicPermissionsRouteService.find(
+	'sectionName'
+).expand(
+	{searchQuery: '<search-phrase>'}
+);               
                 **/  			
                 find: function (section) {
                     return uriTemplateService.parse('permissions/sections/{section}/{?searchQuery,sort}', section);
@@ -24,7 +29,10 @@
                 * - `searchQuery` - A string value used to identify access action resources using the phrase search.  
                 * - `sort` - A string used to set the access action property to sort the result collection by.				
                 * @method        
-                * @example baasicPermissionsRouteService.getActions.expand({searchQuery: '<search-phrase>'});               
+                * @example 
+baasicPermissionsRouteService.getActions.expand(
+	{searchQuery: '<search-phrase>'}
+);               
                 **/  				
                 getActions: uriTemplateService.parse('permissions/actions/{?searchQuery,sort}'),
                 /**
@@ -34,9 +42,12 @@
                 * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                 * - `rpp` - A value used to limit the size of result set per page.				
                 * @method        
-                * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
+                * @example 
+baasicPermissionsRouteService.getRoles.expand(
+	{searchQuery: '<search-phrase>'}
+);               
                 **/  				
-                getRoles: uriTemplateService.parse('roles/{?searchQuery,page,rpp,sort}'),
+                getRoles: uriTemplateService.parse('lookups/roles/{?searchQuery,page,rpp,sort}'),
                 /**
                 * Parses getUsers route which can be expanded with additional options. Supported items are: 
                 * - `searchQuery` - A string value used to identify access policy resources using the phrase search.     
@@ -44,7 +55,10 @@
                 * - `page` - A value used to set the page number, i.e. to retrieve certain access policy subset from the storage.
                 * - `rpp` - A value used to limit the size of result set per page.				
                 * @method        
-                * @example baasicPermissionsRouteService.getRoles.expand({searchQuery: '<search-phrase>'});               
+                * @example 
+baasicPermissionsRouteService.getRoles.expand(
+	{searchQuery: '<search-phrase>'}
+);               
                 **/  				
                 getUsers: uriTemplateService.parse('users/{?searchQuery,page,rpp,sort}'),
                 /**
@@ -56,7 +70,12 @@
 				/**
 				* Parses and expands URI templates based on [RFC6570](http://tools.ietf.org/html/rfc6570) specifications. For more information please visit the project [GitHub](https://github.com/Baasic/uritemplate-js) page.
 				* @method tags.parse
-				* @example baasicPermissionsRouteService.parse('<route>/{?embed,fields,options}').expand({embed: '<embedded-resource>'});
+				* @example 
+baasicPermissionsRouteService.parse(
+	'<route>/{?embed,fields,options}'
+).expand(
+	{embed: '<embedded-resource>'}
+);
 				**/					
                 parse: uriTemplateService.parse
             };

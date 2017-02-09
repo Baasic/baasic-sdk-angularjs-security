@@ -1,7 +1,7 @@
 ﻿/* globals module */
 /**
  * @module baasicPermissionsService
- * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain a needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
+ * @description Baasic Permissions Service provides an easy way to consume Baasic Application Permissions REST API end-points. In order to obtain needed routes `baasicPermissionsService` uses `baasicPermissionsRouteService`.
 */
 (function (angular, module, undefined) {
     'use strict';
@@ -101,7 +101,7 @@ baasicPermissionsService.getPermissionSubjects({
                         .success(function (collection) {
                             angular.forEach(collection.item, function (item) {
                                 var membershipItem = {
-                                    name: item.username,
+                                    name: item.userName,
                                     role: ''
                                 };
                                 angular.extend(membershipItem, item);
@@ -127,7 +127,7 @@ baasicPermissionsService.getPermissionSubjects({
                                 var membershipItem = {
                                     name: item.name,
                                     roleName: item.name,
-                                    username: ''
+                                    userName: ''
                                 };
                                 angular.extend(membershipItem, item);
                                 membershipCollection.push(membershipItem);
@@ -158,7 +158,7 @@ baasicPermissionsService.getPermissionSubjects({
 baasicPermissionsService.create({
   actions : [readAction, updateAction],
   section : '<section-name>',
-  username : '<username>'
+  userName : '<userName>'
 })
 .success(function (data) {
   // perform success action here
@@ -211,7 +211,7 @@ baasicPermissionsService.createPermission('<section-Name>', actionCollection, su
                     var permission = {
                         dirty: true,
                         role: membershipItem.roleName,
-                        username: membershipItem.username,
+                        userName: membershipItem.userName,
                         section: section,
                         actions: []
                     };
@@ -235,7 +235,7 @@ baasicPermissionsService.createPermission('<section-Name>', actionCollection, su
 
                         if (item.section === permission.section &&
                                ((!isEmpty(item.role) && !isEmpty(permission.role) && item.role === permission.role) ||
-                               (!isEmpty(item.username) && !isEmpty(permission.username) && item.username === permission.username))) {
+                               (!isEmpty(item.userName) && !isEmpty(permission.userName) && item.userName === permission.userName))) {
                             return item;
                         }
                     }
