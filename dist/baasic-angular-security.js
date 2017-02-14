@@ -1,5 +1,5 @@
 /*
- Baasic AngularJS Security v1.0.1
+ Baasic AngularJS Security v1.0.2
  (c) 2014-2017 Mono Ltd. http://baasic.com
  License: MIT
 */
@@ -662,9 +662,9 @@
                  **/
                 response: function (widgetId) { /* jshint camelcase: false */
                     var result;
-                    if (!widgetId) {
+                    if (typeof widgetId === 'undefined') {
                         angular.forEach(wInstances, function (value, key) {
-                            if (key !== undefined) {
+                            if (typeof key !== 'undefined') {
                                 result = grecaptcha.getResponse(key);
                             }
                         });
@@ -680,9 +680,9 @@
                  **/
                 reload: function (widgetId) {
                     var result;
-                    if (!widgetId) {
+                    if (typeof widgetId === 'undefined') {
                         angular.forEach(wInstances, function (value, key) {
-                            if (key !== undefined) {
+                            if (typeof key !== 'undefined') {
                                 result = grecaptcha.reset(key);
                             }
                         });
@@ -697,7 +697,7 @@
                  * @example baasicRecaptchaService.destroy();
                  **/
                 destroy: function (widgetId) {
-                    if (widgetId) {
+                    if (typeof widgetId !== 'undefined' && widgetId !== '') {
                         delete wInstances[widgetId];
                     }
                 }
