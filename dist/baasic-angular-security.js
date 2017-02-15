@@ -1,5 +1,5 @@
 /*
- Baasic AngularJS Security v1.0.3
+ Baasic AngularJS Security v1.0.4
  (c) 2014-2017 Mono Ltd. http://baasic.com
  License: MIT
 */
@@ -666,11 +666,7 @@
                  **/
                 create: function (elem, options) {
                     var deferred = $q.defer();
-                    if (!checkRecaptchaState()) {
-                        evaluateRecaptchaState(deferred, elem);
-                    } else {
-                        deferred.resolve(initialize(elem, options));
-                    }
+                    evaluateRecaptchaState(deferred, elem, options);
                     return deferred.promise;
                 },
                 /**

@@ -44,11 +44,7 @@
                 **/
                 create: function (elem, options) {
                     var deferred = $q.defer();
-                    if (!checkRecaptchaState()) {
-                        evaluateRecaptchaState(deferred, elem);
-                    } else {
-                        deferred.resolve(initialize(elem, options));
-                    }
+                    evaluateRecaptchaState(deferred, elem, options);                    
                     return deferred.promise;
                 },
                 /**
