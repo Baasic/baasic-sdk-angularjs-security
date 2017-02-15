@@ -6,21 +6,22 @@
 */
 (function (angular, module, undefined) {
     'use strict';
-    module.directive('baasicRecaptcha', ['baasicRecaptchaService', 
+    module.directive('baasicRecaptcha', ['baasicRecaptchaService',
         function (recaptchaService) {
             return {
-                restrict: 'A',                
-                link: function (scope, elem) {                    
-                    scope.widgetId = recaptchaService.create(elem,
+                restrict: 'A',
+                link: function (scope, elem) {
+                    recaptchaService.create(elem,
                         {
                             theme: 'light'
                         }
-                    );
-
-                    scope.$on('$destroy', function () {
-                        if (recaptchaService) {
-                            recaptchaService.destroy(scope.widgetId);
-                        }
+                    ).then(function (response) {
+                        scope.widgetId = response;
+                        scope.$on('$destroy', function () {
+                            if (recaptchaService) {
+                                recaptchaService.destroy(scope.widgetId);
+                            }
+                        });
                     });
                 }
             };

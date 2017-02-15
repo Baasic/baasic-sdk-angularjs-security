@@ -1,5 +1,5 @@
 /*
- Baasic AngularJS Security v1.0.2
+ Baasic AngularJS Security v1.0.3
  (c) 2014-2017 Mono Ltd. http://baasic.com
  License: MIT
 */
@@ -42,14 +42,15 @@
             return {
                 restrict: 'A',
                 link: function (scope, elem) {
-                    scope.widgetId = recaptchaService.create(elem, {
+                    recaptchaService.create(elem, {
                         theme: 'light'
-                    });
-
-                    scope.$on('$destroy', function () {
-                        if (recaptchaService) {
-                            recaptchaService.destroy(scope.widgetId);
-                        }
+                    }).then(function (response) {
+                        scope.widgetId = response;
+                        scope.$on('$destroy', function () {
+                            if (recaptchaService) {
+                                recaptchaService.destroy(scope.widgetId);
+                            }
+                        });
                     });
                 }
             };
@@ -625,8 +626,38 @@
      */
     (function (angular, module, undefined) {
         'use strict';
-        module.service('baasicRecaptchaService', ['recaptchaKey', function (recaptchaKey) {
+        module.service('baasicRecaptchaService', ['recaptchaKey', '$q', '$timeout', function (recaptchaKey, $q, $timeout) {
             var wInstances = [];
+            var initialize = function (elem, options) {
+                var id = elem.attr('id');
+                if (!id) {
+                    id = 'recaptcha-' + Math.random() * 10000;
+                    elem.attr('id', id);
+                }
+
+                var response = grecaptcha.render(id, angular.extend({
+                    'sitekey': recaptchaKey
+                }, options));
+
+                wInstances[response] = elem;
+                return response;
+            };
+            var checkRecaptchaState = function () {
+                if (typeof grecaptcha === 'undefined') {
+                    return false;
+                }
+                return true;
+            };
+            var evaluateRecaptchaState = function (deferred, element, options) {
+                if (!checkRecaptchaState()) {
+                    $timeout(function () {
+                        evaluateRecaptchaState(deferred, element, options);
+                    }, 100);
+                } else {
+                    deferred.resolve(initialize(element, options));
+                }
+            };
+
             return {
                 /**
                  * Creates a new reCaptcha instance with provided options and injects a reCaptcha DOM onto a given element.
@@ -634,18 +665,13 @@
                  * @example baasicRecaptchaService.create(element, {theme: 'clean'});
                  **/
                 create: function (elem, options) {
-                    var id = elem.attr('id');
-                    if (!id) {
-                        id = 'recaptcha-' + Math.random() * 10000;
-                        elem.attr('id', id);
+                    var deferred = $q.defer();
+                    if (!checkRecaptchaState()) {
+                        evaluateRecaptchaState(deferred, elem);
+                    } else {
+                        deferred.resolve(initialize(elem, options));
                     }
-
-                    var response = grecaptcha.render(id, angular.extend({
-                        'sitekey': recaptchaKey
-                    }, options));
-
-                    wInstances[response] = elem;
-                    return response;
+                    return deferred.promise;
                 },
                 /**
                  * Communicates with reCaptcha service and provides a reCaptcha challenge identifier.
